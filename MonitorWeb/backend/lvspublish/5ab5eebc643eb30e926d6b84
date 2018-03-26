@@ -1,0 +1,48 @@
+global_defs {  
+   router_id bj_lvs_cluster
+}
+
+include ./local_address.conf
+
+
+
+virtual_server_group vip_test1 {
+    
+    1.1.1.1 80 #thewayma
+    
+}
+
+virtual_server group  vip_test1 {
+  delay_loop 6
+  lb_algo wrr 
+  lb_kind FNAT
+  protocol TCP
+  persistence_timeout 0
+  syn_proxy
+  laddr_group_name laddr_g1
+  alpha
+  omega
+  quorum 1
+  hysteresis 0
+  quorum_up "ip addr add 1.1.1.1/32 dev lo ;"
+  
+  quorum_down "ip addr del 1.1.1.1/32 dev lo ;"
+  
+ 
+  
+	  
+	  real_server 4.4.4.4 80 {
+	    weight 1                                         
+	    inhibit_on_failure
+	    
+	    TCP_CHECK {
+        	connect_timeout 3
+        	connect_port 80
+    	}
+    	  
+    }                       
+	  
+  
+}
+
+

@@ -1,0 +1,25 @@
+base:
+  NUMBER_OF_PROCESSES: 4
+
+agent:
+  -  id: lvs_master
+     ipadd: 192.168.145.135
+     cluster: bj_lvs_cluster
+     area: beijing
+     port: 60090
+     state: master
+
+  -  id: lvs_slave
+     ipadd: 192.168.145.134
+     cluster: bj_lvs_cluster
+     area: beijing
+     port: 60090
+     state: slave
+
+cluster:
+  - id: bj_lvs_cluster
+    area: beijing
+    descript: 北京LVS集群
+    agent: ['lvs_master','lvs_slave']
+    admin_mail_group: ['thewayma@163.com']
+    manager_user: ['thewayma']

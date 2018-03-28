@@ -41,11 +41,19 @@
 		      </div>
 		    </div>
 		    <div class="control-group">
-		      <label class="control-label" for="vip_group">VIP组</label>
+		      <label class="control-label" for="vip_group">vip组</label>
 		      <div class="controls">
-		        <td><input style="width: 310px;" id="vip_group" class="lvs_manager_deploy_add_vip_input" type="text" name='vip' placeholder="VIP地址"><span class="help-block">VIP组列表,以逗号分割.例如:1.1.1.1:80,2.2.2.2:80</span></td>
+		        <td><input style="width: 310px;" id="vip_group" class="lvs_manager_deploy_add_vip_input" type="text" name='vip' placeholder="vip地址"><span class="help-block">vip组列表,以逗号分割.例如:1.1.1.1:80,2.2.2.2:80</span></td>
 		      </div>
 		    </div>
+		  
+		    <div class="control-group">
+		      <label class="control-label" for="vip_nic">vip绑定的物理网卡名称</label>
+		      <div class="controls">
+		        <td><input style="width: 310px;" id="vip_nic" class="lvs_manager_deploy_add_vip_input" type="text" name='vip_nic' placeholder="eth0"></td>
+		      </div>
+		    </div>
+
 		    <div class="control-group">
 		      <label class="control-label" for="protocol">协议</label>
 		      <div class="controls">
@@ -65,8 +73,8 @@
 		      <label class="control-label" for="lb_algo">调度方法</label>
 		      <div class="controls">
 		        <select id="lb_algo" class="lvs_manager_deploy_add_vip_input" name='lb_algo'>
-		        	<option value='wrr'>wrr</option>
 		        	<option value='rr'>rr</option>
+		        	<option value='wrr'>wrr</option>
 		        	<option value='lc'>lc</option>
 		        	<option value='wlc'>wlc</option>
 		        	<option value='lblc'>lblc</option>

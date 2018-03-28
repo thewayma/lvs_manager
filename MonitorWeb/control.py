@@ -232,7 +232,8 @@ class HomeHandler(BaseHandler):
             else:
                 handler.InsertAccount(user_data)
         self.set_secure_cookie("user", user, expires_days=options.cookies_expires)
-        self.redirect('/charts/')
+       	#self.redirect('/charts/')
+        self.redirect('/lvsmanager/')
 
 
 class LoginOut(BaseHandler):
@@ -703,6 +704,67 @@ class lvsManagerPublish(BaseHandler):
                 rev = last_rev['rev'] + 1
             else:
                 rev = 1
+
+            #主备模式下, 每发布一次新配置,版本号增1; 通过版本号,迭代keepalived vrrp实例的 master与slave状态交换
+            if rev & 1 == 1:
+                master_index = 0
+                slave_index = 1
+            else:
+                master_index = 1
+                slave_index = 0
+
+            #insert发布记录
+            lvsmanagerpublish = {"time":time_now,"message":mess,"cluster_id":cluster_id,"rev":rev,"server":_vipinstancelist,"area":area,"admin_mail_group":admin_mail_group}
+            context = yaml.dump(lvsmanagerpublish)
+            new_publish_id = handler.insertLvsManagerPublish(lvsmanagerpublish)
+
+            #keepalive for master
+            keepalived_config_master = self.template('keepalived.tpl',vip_instance_list = vipinstancelist, cluster_id = cluster_id, master = 0)
+            publishdir = options.publishdir
+            keepalived_config_file_master = os.path.join(publishdir,new_publish_id) + "master"
+            f = codecs.open(keepalived_config_file_master,'w+','utf-8')
+            f.write(keepalived_config_master)
+            f.close()
+
+            #keepalive for slave
+            keepalived_config_slave = self.template('keepalived.tpl',vip_instance_list = vipinstancelist, cluster_id = cluster_id, master = 1)
+            keepalived_config_file_slave = os.path.join(publishdir,new_publish_id) + "slave"
+            f = codecs.open(keepalived_config_file_slave,'w+','utf-8')
+            f.write(keepalived_config_slave)
+            f.close()
+
+            #调用saltstack，传送配置
+            tgt = search_cluster(cluster_id)['agent']
+            dst_file = '/etc/keepalived/keepalived.conf'
+            runsalt = saltstackwork()
+
+            source_file = keepalived_config_file_master
+            result_master = runsalt.run_publish_keepalived(tgt[master_index], source_file, dst_file)
+
+            source_file = keepalived_config_file_slave
+            result_slave = runsalt.run_publish_keepalived(tgt[slave_index], source_file, dst_file)
+
+            #publish info.yaml
+            info_source_file = 'info.yaml'
+            info_dst_file = '/etc/keepalived/info.yaml'
+            result = runsalt.run_cp_file(tgt, info_source_file, info_dst_file, context)
+            ret_html = ''
+            ret_result = True
+            print "keepalive for master: ",  result_master
+            print "keepalive for slave: ", result_master
+            print "info.yaml result: ", result
+            for lb in tgt:
+                if (result_master.has_key(lb) | result_slave.has_key(lb)) & result.has_key(lb):
+                    ret_html += '%s ok\n' %(lb)
+                else:
+                    ret_html += '%s failed\n' %(lb)
+                    ret_result = False
+            #更新发布结构
+            handler.updateLvsManagerPublishResult(new_publish_id,ret_result)
+            self.write(ret_html)
+
+
+            """
             #insert发布记录
             lvsmanagerpublish = {"time":time_now,"message":mess,"cluster_id":cluster_id,"rev":rev,"server":_vipinstancelist,"area":area,"admin_mail_group":admin_mail_group}
             context = yaml.dump(lvsmanagerpublish)
@@ -738,6 +800,7 @@ class lvsManagerPublish(BaseHandler):
             #更新发布结构
             handler.updateLvsManagerPublishResult(new_publish_id,ret_result)
             self.write(ret_html)
+            """
         
 class lvsManagerRollback(BaseHandler):
     @tornado.web.authenticated

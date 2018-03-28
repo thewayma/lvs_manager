@@ -2,10 +2,41 @@ global_defs {
    router_id {{ cluster_id }}
 }
 
+{% set rvid = 0 %}
+
 include ./local_address.conf
 
 {% for vipinstance in vip_instance_list %}
 {% if vipinstance.status != 'offline' %}
+
+vrrp_instance {{ vipinstance.vip_instance }}  {
+    state BACKUP    #主备都是backup, 启动时高priority将选为主
+    interface {{ vipinstance.vip_nic}}
+    virtual_router_id {% set rvid = rvid%256 %}{{ rvid }}{% set rvid = rvid + 1 %}  #VRID可用值0-255，即lvs设备上最多可以定义256个vrrp实例
+
+    #多个vrrp实例时, 主备直接轮流切换, 最大化资源利用率
+    {% set master = master%2 %}
+    {% if master == 0 %}
+        priority 100    #主机上设置成100
+    {% else %}
+        priority 90     #备机上设置成90
+    {% endif %}
+    {% set master = master + 1 %}
+
+    advert_int 1
+    nopreempt FALSE    #设置成切换不抢占
+    authentication {
+        auth_type PASS
+        auth_pass wocao
+    }
+    virtual_ipaddress {
+        {% for vip in vipinstance.vip_group %}
+            {{ vip.vip }} {{ vip.port }} #{{ vipinstance.descript }}
+        {% endfor %}
+    }
+}
+
+
 virtual_server_group {{ vipinstance.vip_instance }} {
     {% for vip in vipinstance.vip_group %}
     {{ vip.vip }} {{ vip.port }} #{{ vipinstance.descript }}

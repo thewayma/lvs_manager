@@ -1,5 +1,5 @@
 global_defs {  
-   router_id {{ cluster_id }}
+   router_id {{ router_id }}
 }
 
 {% set rvid = 0 %}

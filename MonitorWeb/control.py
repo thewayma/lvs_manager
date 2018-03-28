@@ -689,6 +689,7 @@ class lvsManagerPublish(BaseHandler):
         mess = self.get_argument("mess",None)
         area = search_cluster(cluster_id)['area']
         admin_mail_group = search_cluster(cluster_id)['admin_mail_group']
+        tgt = search_cluster(cluster_id)['agent']
         handler = Model('LvsManagerConfig')
         vipinstancelist = handler.getLvsManagerConfigVipInstanceList(cluster_id)
         _vipinstancelist = handler.getLvsManagerConfigVipInstanceList(cluster_id)
@@ -705,21 +706,19 @@ class lvsManagerPublish(BaseHandler):
             else:
                 rev = 1
 
-            #主备模式下, 每发布一次新配置,版本号增1; 通过版本号,迭代keepalived vrrp实例的 master与slave状态交换
-            if rev & 1 == 1:
-                master_index = 0
-                slave_index = 1
-            else:
-                master_index = 1
-                slave_index = 0
-
             #insert发布记录
             lvsmanagerpublish = {"time":time_now,"message":mess,"cluster_id":cluster_id,"rev":rev,"server":_vipinstancelist,"area":area,"admin_mail_group":admin_mail_group}
             context = yaml.dump(lvsmanagerpublish)
             new_publish_id = handler.insertLvsManagerPublish(lvsmanagerpublish)
 
+            #目前, 主备模式只支持两台一主一备; 暂不支持一主多备
+            #多个vrrp实例时, 主备直接轮流切换, 最大化资源利用率; 轮流切换策略具体见 template/keepalived.tpl
+            #轮流切换, 体现在
+            #   1).对于同一个vrrp实例, tgt[0]为主时,tgt[1]为备; 反之亦然
+            #   2).对于不同的vrrp实例, tag[0]第一个vrrp实例为主, 则其第二个vrrp实例为备
+
             #keepalive for master
-            keepalived_config_master = self.template('keepalived.tpl',vip_instance_list = vipinstancelist, cluster_id = cluster_id, master = 0)
+            keepalived_config_master = self.template('keepalived.tpl',vip_instance_list = vipinstancelist, router_id = tgt[0], master = 0)
             publishdir = options.publishdir
             keepalived_config_file_master = os.path.join(publishdir,new_publish_id) + "master"
             f = codecs.open(keepalived_config_file_master,'w+','utf-8')
@@ -727,22 +726,21 @@ class lvsManagerPublish(BaseHandler):
             f.close()
 
             #keepalive for slave
-            keepalived_config_slave = self.template('keepalived.tpl',vip_instance_list = vipinstancelist, cluster_id = cluster_id, master = 1)
+            keepalived_config_slave = self.template('keepalived.tpl',vip_instance_list = vipinstancelist, router_id = tgt[1], master = 1)
             keepalived_config_file_slave = os.path.join(publishdir,new_publish_id) + "slave"
             f = codecs.open(keepalived_config_file_slave,'w+','utf-8')
             f.write(keepalived_config_slave)
             f.close()
 
             #调用saltstack，传送配置
-            tgt = search_cluster(cluster_id)['agent']
             dst_file = '/etc/keepalived/keepalived.conf'
             runsalt = saltstackwork()
 
             source_file = keepalived_config_file_master
-            result_master = runsalt.run_publish_keepalived(tgt[master_index], source_file, dst_file)
+            result_master = runsalt.run_publish_keepalived(tgt[0], source_file, dst_file)
 
             source_file = keepalived_config_file_slave
-            result_slave = runsalt.run_publish_keepalived(tgt[slave_index], source_file, dst_file)
+            result_slave = runsalt.run_publish_keepalived(tgt[1], source_file, dst_file)
 
             #publish info.yaml
             info_source_file = 'info.yaml'

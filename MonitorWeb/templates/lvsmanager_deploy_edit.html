@@ -46,6 +46,14 @@
 		        <td><input style="width: 310px;" id="vip_group" class="lvs_manager_deploy_add_vip_input" type="text" name='vip' value="{{ vipinstance.vip_group }}"><span class="help-block">VIP组列表,以逗号分割.例如:1.1.1.1:80,2.2.2.2:80</span></td>
 		      </div>
 		    </div>
+
+            <div class="control-group">
+		      <label class="control-label" for="vip_nic">vip绑定的物理网卡名称</label>
+		      <div class="controls">
+		        <td><input style="width: 310px;" id="vip_nic" class="lvs_manager_deploy_add_vip_input" type="text" name='vip_nic' placeholder="eth0"></td>
+		      </div>
+		    </div>
+
 		    <div class="control-group">
 		      <label class="control-label" for="protocol">调度方法</label>
 		      <div class="controls">

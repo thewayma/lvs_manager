@@ -2,7 +2,7 @@ global_defs {
    router_id {{ router_id }}
 }
 
-{% set rvid = 0 %}
+{% set rvid = 1 %}
 
 include ./local_address.conf
 
@@ -24,10 +24,10 @@ vrrp_instance {{ vipinstance.vip_instance }}  {
     {% set master = master + 1 %}
 
     advert_int 1
-    nopreempt FALSE    #设置成切换不抢占
+    nopreempt     #设置成切换不抢占
     authentication {
         auth_type PASS
-        auth_pass wocao
+        auth_pass zsd@2018
     }
     virtual_ipaddress {
         {% for vip in vipinstance.vip_group %}
@@ -55,9 +55,9 @@ virtual_server group  {{ vipinstance.vip_instance }} {
   {% if vipinstance.omega %}omega{% endif %}
   quorum {{ vipinstance.quorum }}
   hysteresis {{ vipinstance.hysteresis }}
-  quorum_up "{% for vip in vipinstance.vip_group %}ip addr add {{ vip.vip }}/32 dev lo ;{% endfor %}"
+  quorum_up "{% for vip in vipinstance.vip_group %}ip addr add {{ vip.vip }}/32 dev {{ vipinstance.vip_nic}} ;{% endfor %}"
   {% if vipinstance.omega %}
-  quorum_down "{% for vip in vipinstance.vip_group %}ip addr del {{ vip.vip }}/32 dev lo ;{% endfor %}"
+  quorum_down "{% for vip in vipinstance.vip_group %}ip addr del {{ vip.vip }}/32 dev {{ vipinstance.vip_nic}} ;{% endfor %}"
   {% endif %}
  
   {% for rs in vipinstance.rs %}

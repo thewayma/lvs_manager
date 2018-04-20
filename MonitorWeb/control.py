@@ -551,7 +551,7 @@ class lvsManager(BaseHandler):
             lb_list = []
             for lb in cluster['agent']:
                 lb_info = search_agent(lb)
-                lb_list.append({"id":lb_info['id'],"ipadd":lb_info['ipadd']})
+                lb_list.append({"id":lb_info['id'],"adminIp":lb_info['adminIp'], "lvsLocalIp":lb_info['lvsLocalIp']})
             cluster['lb'] = lb_list
         self.render2('lvsmanager.html',cluster_list=cluster_list)
 
@@ -718,7 +718,7 @@ class lvsManagerPublish(BaseHandler):
             #   2).对于不同的vrrp实例, tag[0]第一个vrrp实例为主, 则其第二个vrrp实例为备
 
             #keepalive for master
-            keepalived_config_master = self.template('keepalived.tpl',vip_instance_list = vipinstancelist, router_id = tgt[0], master = 0)
+            keepalived_config_master = self.template('keepalived.tpl',vip_instance_list = vipinstancelist, router_id = tgt[0], master = 0, localip = search_agent(tgt[0])['lvsLocalIp'])
             publishdir = options.publishdir
             keepalived_config_file_master = os.path.join(publishdir,new_publish_id) + "master"
             f = codecs.open(keepalived_config_file_master,'w+','utf-8')
@@ -726,7 +726,7 @@ class lvsManagerPublish(BaseHandler):
             f.close()
 
             #keepalive for slave
-            keepalived_config_slave = self.template('keepalived.tpl',vip_instance_list = vipinstancelist, router_id = tgt[1], master = 1)
+            keepalived_config_slave = self.template('keepalived.tpl',vip_instance_list = vipinstancelist, router_id = tgt[1], master = 1, localip = search_agent(tgt[1])['lvsLocalIp'])
             keepalived_config_file_slave = os.path.join(publishdir,new_publish_id) + "slave"
             f = codecs.open(keepalived_config_file_slave,'w+','utf-8')
             f.write(keepalived_config_slave)

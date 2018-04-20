@@ -3,14 +3,15 @@ base:
 
 agent:
   -  id: lvs_master
-     ipadd: 192.168.43.144
+     adminIp: 192.168.43.144
+     lvsLocalIp: 192.168.43.144
      cluster: bj_lvs_cluster
      area: beijing
      port: 60090
      state: master
-
   -  id: lvs_slave
-     ipadd: 192.168.43.145
+     adminIp: 192.168.43.145
+     lvsLocalIp: 192.168.43.145
      cluster: bj_lvs_cluster
      area: beijing
      port: 60090

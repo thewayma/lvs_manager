@@ -6,7 +6,7 @@ from tornado.options import define, options
 
 cur_dir = os.path.dirname(os.path.abspath(__file__))
 
-define("port", default=8888, help="run on the given port", type=int)
+define("port", default=8080, help="run on the given port", type=int)
 define("mongodb", default="localhost", help="mongodb host")
 define("mongodb_port", default=27017, help="mongodb port")
 define("db", default="LvsMonitor", help="default Lvs Monitor Db Name")

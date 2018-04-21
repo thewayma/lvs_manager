@@ -17,19 +17,19 @@
   		<hr>
 	  	<form class="form-horizontal">
 			<div class="control-group">
-		      <label class="control-label" for="vipinstance">VIP实例</label>
+		      <label class="control-label" for="vipinstance">VIP实例标识</label>
 		      <div class="controls">
 		        <td><input id="vip_instance" class="lvs_manager_deploy_add_vip_input" type="text" name='vip_instance' check-type="required" value="{{ vipinstance.vip_instance }}"><span class="help-block">VIP实例，在集群中必须是唯一</span></td>
 		      </div>
 		    </div>
 		    <div class="control-group">
-		      <label class="control-label" for="descript">业务</label>
+		      <label class="control-label" for="descript">业务信息描述</label>
 		      <div class="controls">
 		        <td><input id="descript" class="lvs_manager_deploy_add_vip_input" type="text" name='descript' value="{{ vipinstance.descript }}"></td>
 		      </div>
 		    </div>
 		    <div class="control-group">
-		      <label class="control-label" for="owners">负责人</label>
+		      <label class="control-label" for="owners">业务负责人</label>
 		      <div class="controls">
 		        <td><input id="owners" class="lvs_manager_deploy_add_vip_input" type="text" name='owners' value="{{ vipinstance.owners }}"></td>
 		      </div>
@@ -43,14 +43,14 @@
 		    <div class="control-group">
 		      <label class="control-label" for="vip_group">VIP组</label>
 		      <div class="controls">
-		        <td><input style="width: 310px;" id="vip_group" class="lvs_manager_deploy_add_vip_input" type="text" name='vip' value="{{ vipinstance.vip_group }}"><span class="help-block">VIP组列表,以逗号分割.例如:1.1.1.1:80,2.2.2.2:80</span></td>
+		        <td><input style="width: 310px;" id="vip_group" class="lvs_manager_deploy_add_vip_input" type="text" name='vip' value="{{ vipinstance.vip_group }}"><span class="help-block">VIP组列表,以逗号分割. 例如:1.1.1.1:80, 2.2.2.2:80</span></td>
 		      </div>
 		    </div>
 
             <div class="control-group">
 		      <label class="control-label" for="vip_nic">vip绑定的物理网卡名称</label>
 		      <div class="controls">
-		        <td><input style="width: 310px;" id="vip_nic" class="lvs_manager_deploy_add_vip_input" type="text" name='vip_nic' placeholder="eth0"></td>
+                  <td><input style="width: 310px;" id="vip_nic" class="lvs_manager_deploy_add_vip_input" type="text" name='vip_nic' value="{{ vipinstance.vip_nic}}"></td>
 		      </div>
 		    </div>
 

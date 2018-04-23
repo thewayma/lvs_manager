@@ -2,24 +2,26 @@ base:
   NUMBER_OF_PROCESSES: 4
 
 agent:
-  -  id: lvs_master
-     ipadd: 192.168.145.135
-     cluster: bj_lvs_cluster
-     area: beijing
+  -  id: 10.58.95.75-lvs-master-node
+     adminIp: 10.58.95.75
+     lvsLocalIp: 101.226.227.165
+     cluster: sh_lvs_cluster
+     area: shanghai
      port: 60090
      state: master
 
-  -  id: lvs_slave
-     ipadd: 192.168.145.134
-     cluster: bj_lvs_cluster
-     area: beijing
+  -  id: 10.58.95.85-lvs-slave-node
+     adminIp: 10.58.95.85
+     lvsLocalIp: 101.226.227.167
+     cluster: sh_lvs_cluster
+     area: shanghai
      port: 60090
      state: slave
 
 cluster:
-  - id: bj_lvs_cluster
-    area: beijing
-    descript: 北京LVS集群
-    agent: ['lvs_master','lvs_slave']
+  - id: sh_lvs_cluster
+    area: shanghai
+    descript: 上海青浦机房 LVS集群
+    agent: ['10.58.95.75-lvs-master-node','10.58.95.85-lvs-slave-node']
     admin_mail_group: ['thewayma@163.com']
     manager_user: ['thewayma']

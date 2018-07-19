@@ -303,3 +303,25 @@ class Model():
     
     def updateAccountLogintime(self,user,time):
         self.db['LvsAccount'].update({"username":user},{"$set":{"login_time":time}})
+
+
+
+
+    def Insert7LayerNginxItem(self, service_data):
+        result = self.db['7LayerNginxAccess'].insert(service_data)
+        return True
+
+    def Remove7LayerNginxItem(self, idcName, serviceName):
+        self.db['7LayerNginxAccess'].remove({"idc": idcName, "service": serviceName})
+        return True
+
+    def Updata7LayerNginxItem(self, idcName, serviceName, domainInfo, upstreamInfo):
+        result = self.db['7LayerNginxAccess'].update({"idc": idcName, "service": serviceName}, {"$set": {"domain": domainInfo, "upstream": upstreamInfo}})
+        return True
+
+    def Get7LayerNginxItem(self, idcName, serviceName):
+        result = self.db['7LayerNginxAccess'].find_one({"idc": idcName, "service": serviceName})
+        return result
+
+
+

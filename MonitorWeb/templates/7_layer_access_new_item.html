@@ -14,6 +14,7 @@
   	<div class='col-md-12' id='7_layer_access_new_item_body'>
   		<h4>7层接入实例</h4>
   		<hr>
+
 	  	<form class="form-horizontal">
 
             <div class="control-group">
@@ -34,221 +35,27 @@
 		      </div>
 		    </div>
 
+            <div class="control-group">
+		      <label class="control-label" for="descript">接入业务域名(Host)</label>
+		      <div class="controls">
+		        <td><input id="descript" class="7_layer_access_new_item_input" type="text" name='descript' placeholder="域名, 例如: www.thewayma.com"></td>
+		      </div>
+            </div>
 
-
-			<div class="control-group">
-		      <label class="control-label" for="vipinstance">VIP实例</label>
+            <div class="control-group">
+		      <label class="control-label" for="descript">接入业务源站服务器信息(Upstream)</label>
 		      <div class="controls">
-		        <td><input id="vip_instance" class="7_layer_access_new_item_input" type="text" name='vip_instance' check-type="required"><span class="help-block">VIP实例，在集群中必须是唯一</span></td>
+		        <td><input id="descript" class="7_layer_access_new_item_input" type="text" name='descript' placeholder="upstream, 例如: 1.1.1.1:80,2.2.2.2,3.3.3.3:8080 即多个源站ip用","分割></td>
 		      </div>
-		    </div>
-		    <div class="control-group">
-		      <label class="control-label" for="descript">业务</label>
-		      <div class="controls">
-		        <td><input id="descript" class="7_layer_access_new_item_input" type="text" name='descript' placeholder="业务名"></td>
-		      </div>
-		    </div>
-		    <div class="control-group">
-		      <label class="control-label" for="owners">负责人</label>
-		      <div class="controls">
-		        <td><input id="owners" class="7_layer_access_new_item_input" type="text" name='owners' placeholder="负责人"></td>
-		      </div>
-		    </div>
-		    <div class="control-group">
-		      <label class="control-label" for="mailto">警告邮件列表</label>
-		      <div class="controls">
-		        <td><input style="width: 310px;" id="mailto" class="7_layer_access_new_item_input" type="text" name='mailto' placeholder="以逗号分割"><span class="help-block">警告邮件列表,以逗号分割,例如:xxxx@xx.xx,xxxx@xx.xx</span></td>
-		      </div>
-		    </div>
-		    <div class="control-group">
-		      <label class="control-label" for="vip_group">vip组</label>
-		      <div class="controls">
-		        <td><input style="width: 310px;" id="vip_group" class="7_layer_access_new_item_input" type="text" name='vip' placeholder="vip地址"><span class="help-block">vip组列表,以逗号分割.例如:1.1.1.1:80,2.2.2.2:80</span></td>
-		      </div>
-		    </div>
-		  
-		    <div class="control-group">
-		      <label class="control-label" for="vip_nic">vip绑定的物理网卡名称</label>
-		      <div class="controls">
-		        <td><input style="width: 310px;" id="vip_nic" class="7_layer_access_new_item_input" type="text" name='vip_nic' placeholder="eth0"></td>
-		      </div>
-		    </div>
-
-		    <div class="control-group">
-		      <label class="control-label" for="protocol">协议</label>
-		      <div class="controls">
-		        <select id="protocol" class="7_layer_access_new_item_input" name='protocol'>
-		        	<option value='TCP'>TCP</option>
-		        	<option value='UDP'>UDP</option>
-		        </select>
-		      </div>
-		    </div>
-		    <div class="control-group">
-		      <label class="control-label" for="delay_loop">检测间隔</label>
-		      <div class="controls">
-		        <td><input style="width: 40px;" id="delay_loop" class="7_layer_access_new_item_input" type="text" name='delay_loop' placeholder="检测间隔" value="6"></td>
-		      </div>
-		    </div>
-		    <div class="control-group">
-		      <label class="control-label" for="lb_algo">调度方法</label>
-		      <div class="controls">
-		        <select id="lb_algo" class="7_layer_access_new_item_input" name='lb_algo'>
-		        	<option value='rr'>rr</option>
-		        	<option value='wrr'>wrr</option>
-		        	<option value='lc'>lc</option>
-		        	<option value='wlc'>wlc</option>
-		        	<option value='lblc'>lblc</option>
-		        	<option value='sh'>sh</option>
-		        	<option value='dh'>dh</option>
-		        </select>
-		      </div>
-		    </div>
-		    <div class="control-group">
-		      <label class="control-label" for="lb_kind">调度模式</label>
-		      <div class="controls">
-		        <select id="lb_kind" class="7_layer_access_new_item_input" name='lb_kind'>
-		        	<option value='FNAT'>FNAT</option>
-		        	<option value='DR'>DR</option>
-		        	<option value='NAT'>NAT</option>
-		        	<option value='TUN'>TUN</option>
-		        </select>
-		      </div>
-		    </div>
-		    <div class="control-group">
-		      <label class="control-label" for="persistence_timeout">会话保持时间</label>
-		      <div class="controls">
-		        <td><input style="width: 40px;" id="persistence_timeout" class="7_layer_access_new_item_input" type="text" name='persistence_timeout' placeholder="会话保持时间" value='0' ></td>
-		      </div>
-		    </div>
-		    <div class="control-group">
-		      <label class="control-label" for="sync_proxy">sync_proxy防御</label>
-		      <div class="controls">
-		        <td><input id="sync_proxy" class="lvs_manager_deploy_add_vip_checkbox " name='sync_proxy' type='checkbox' value='True' checked="true"></td>
-		      </div>
-		    </div>
-		    <div class="control-group">
-		      <label class="control-label" for="alpha">alpha</label>
-		      <div class="controls">
-		        <td><input id="alpha" class="lvs_manager_deploy_add_vip_checkbox" name='alpha' type='checkbox' value='True' checked="true"><span class="help-block">是否开启alpha模式,启动时默认rs是down状态，健康检查通过后才添加到lvs pool</span></td>
-		      </div>
-		    </div>
-		    <div class="control-group">
-		      <label class="control-label" for="omega">omega</label>
-		      <div class="controls">
-		        <td><input id="omega" class="lvs_manager_deploy_add_vip_checkbox" name='omega' type='checkbox' value='True' checked="true"><span class="help-block">是否开启omega模式，清楚rs时会执行相应的脚本(quorum_up)</span></td>
-		      </div>
-		    </div>
-		    <div class="control-group">
-		      <label class="control-label" for="quorum">quorum</label>
-		      <div class="controls">
-		        <td><input style="width: 40px;" id="quorum" class="7_layer_access_new_item_input" type="text" name='quorum' value='1' ><span class="help-block">服务是否有效的阀值</span></td>
-		      </div>
-		    </div>
-		    <div class="control-group">
-		      <label class="control-label" for="hysteresis">hysteresis</label>
-		      <div class="controls">
-		        <td><input style="width: 40px;" id="hysteresis" class="7_layer_access_new_item_input" type="text" name='hysteresis' value='0'><span class="help-block">延迟系数，跟quorum配合使用</span></td>
-		      </div>
-		    </div>
+            </div>
 		</form>
-		</br>
-		<h4>RealServer组</h4>
-		<hr>
-		<button id="rs_add" class='btn btn-success'><span class="fui-plus"></span>添加RS</button>
-		<table class="table table-bordered table-hover">
-			  <thead>
-			    <tr>
-			      <th style="width: 10%">管理IP</th>
-			      <th style="width: 10%">服务IP</th>
-			      <th style="width: 10%">权重</th>
-			      <th style="width: 40%">port列表</th>
-			      <th style="width: 10%">监控方式</th>
-			      <th>操作</th>
-			    </tr>
-			  </thead>
-			  <tbody id='rs_talbe_body'>
-			  </tbody>
-		</table>
-		<hr>
+
 		<button style="position: relative;left: 800px;" class='btn btn-danger' id="lvs_deploy_add_submit" ><span class="fui-checkbox-checked"></span>提交</button>
 		<a href="/lvsmanager_deploy/?id={{ cluster }}" style="position: relative;left: 800px;" class='btn btn-primary'><span class="fui-arrow-left"></span>返回</a>
   	</div>
   </div>
 
 
-
-<div id="dialog-form" title="新增RS配置">
-  <form>
-  <fieldset>
-    <div class="control-group">
-      <label class="control-label" for="manager_ip">管理IP</label>
-      <div class="controls">
-        <td><input id="manager_ip" type="text" name='manager_ip'><span class="help-block">用于登录管理的IP</span></td>
-      </div>
-	</div>
-	<div class="control-group">
-      <label class="control-label" for="server_ip">服务IP</label>
-      <div class="controls">
-        <td><input id="server_ip" type="text" name='server_ip'><span class="help-block">用于RS提供服务的IP</span></td>
-      </div>
-	</div>
-	<div class="control-group">
-      <label class="control-label" for="weight">权重</label>
-      <div class="controls">
-        <td><input id="weight" type="text" name='weight'><span class="help-block">用于调节RS的负载压力</span></td>
-      </div>
-	</div>
-	<div class="control-group">
-      <label class="control-label" for="rs_port">port列表</label>
-      <div class="controls">
-        <td><input id="rs_port" type="text" name='rs_port'><span class="help-block">端口的列表,以逗号分割</span></td>
-      </div>
-	</div>
-	<div class="control-group">
-      <label class="control-label" for="monitor_type">监控方式</label>
-      <div class="controls">
-        <select id="monitor_type" name='monitor_type'>
-	    	<option value='HTTP_GET'>HTTP_GET</option>
-	    	<option value='TCP_CHECK'>TCP_CHECK</option>
-	    	<option value='MISC_CHECK'>MISC_CHECK</option>
-		</select>
-      </div>
-	</div>
-	<div id="monitor_method">
-		<div class="control-group">
-	      <label class="control-label" for="path">path</label>
-	      <div class="controls">
-	        <td><input id="path" class="monitor_method_input" type="text" name='path'></td>
-	      </div>
-		</div>
-		<div class="control-group">
-	      <label class="control-label" for="digest">digest</label>
-	      <div class="controls">
-	        <td><input id="digest" class="monitor_method_input" type="text" name='digest'></td>
-	      </div>
-		</div>
-		<div class="control-group">
-	      <label class="control-label" for="connect_timeout">连接超时时间</label>
-	      <div class="controls">
-	        <td><input id="connect_timeout" class="monitor_method_input" type="text" name='connect_timeout'></td>
-	      </div>
-		</div>
-		<div class="control-group">
-	      <label class="control-label" for="nb_get_retry">重连次数</label>
-	      <div class="controls">
-	        <td><input id="nb_get_retry" class="monitor_method_input" type="text" name='nb_get_retry'></td>
-	      </div>
-		</div>
-		<div class="control-group">
-	      <label class="control-label" for="delay_before_retry">重连间隔时间</label>
-	      <div class="controls">
-	        <td><input id="delay_before_retry" class="monitor_method_input" type="text" name='delay_before_retry'></td>
-	      </div>
-		</div>
-	</div>
-  </fieldset>
-  </form>
-</div>
 
 </div>
 <script type="text/javascript">

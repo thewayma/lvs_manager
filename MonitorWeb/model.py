@@ -321,7 +321,7 @@ class Model():
 
     def Get7LayerNginxItemListByIdc(self, idcName):
         result = self.db['7LayerNginxAccess'].find({"idc": idcName})
-        return result
+        return list(result)
 
 
 

@@ -985,6 +985,6 @@ class nginxGetServiceList(BaseHandler):
 
         for idc in idc_list:
             service_list = handler.Get7LayerNginxItemListByIdc(idc)
-            service_list_info.append(service_list)
+            service_list_info.extend(service_list)
 
         self.render2('7_layer_access.html', instanceinfo = service_list_info)

@@ -988,5 +988,3 @@ class nginxGetServiceList(BaseHandler):
             service_list_info.append(service_list)
 
         self.render2('7_layer_access.html', instanceinfo = service_list_info)
-        print service_list_info
-

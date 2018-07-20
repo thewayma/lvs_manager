@@ -970,7 +970,9 @@ class lvsManagerSearch(BaseHandler):
             self.render2('lvsmanager_search.html',result = result)
 
 
-
+"""
+    以下为7层接入管控业务
+"""
 class nginxGetServiceList(BaseHandler):
     @tornado.web.authenticated
     def get(self):
@@ -988,3 +990,13 @@ class nginxGetServiceList(BaseHandler):
             service_list_info.extend(service_list)
 
         self.render2('7_layer_access.html', instanceinfo = service_list_info)
+
+class nginxNewServiceItem(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        idc = self.get_argument("idc", None)
+        serviceName = self.get_argument("service", None)
+
+        print idc, serviceName
+        #self.render2('7_layer_access_new_item.html', )
+

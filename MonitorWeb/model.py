@@ -319,9 +319,9 @@ class Model():
         result = self.db['7LayerNginxAccess'].update({"idc": idcName, "service": serviceName}, {"$set": {"domain": domainInfo, "upstream": upstreamInfo}})
         return True
 
-    def Get7LayerNginxItem(self, idcName, serviceName):
-        result = self.db['7LayerNginxAccess'].find_one({"idc": idcName, "service": serviceName})
-        return result
+    def Get7LayerNginxItemListByIdc(self, idcName):
+        result = self.db['7LayerNginxAccess'].find({"idc": idcName})
+        return list(result)
 
 
 

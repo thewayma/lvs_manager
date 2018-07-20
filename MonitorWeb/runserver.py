@@ -87,11 +87,11 @@ class Application(tornado.web.Application):
         ]
 
         nginx_path = [
-            (r"/7_layer_access", control.nginxGetServiceList),
+            (r"/7_layer_access/", control.nginxGetServiceList),
 
         ]
 
-        handlers = api_path + web_path
+        handlers = api_path + web_path + nginx_path
         settings = dict(
             template_path=os.path.join(cur_dir,'templates/'),
             static_path=os.path.join(cur_dir,'lib/'),

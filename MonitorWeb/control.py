@@ -978,8 +978,14 @@ class nginxGetServiceList(BaseHandler):
         cluster = config['7nginxCluster']
 
         idc_list = cluster['idc']
-        etcdip = cluster['etcdIp']
+        #etcdip = cluster['etcdIp']
 
-        print idc_list
-        print etcdip
+        service_list_info = []
+        handler = Model("7LayerNginxAccess")
+
+        for idc in idc_list:
+            service_list = handler.Get7LayerNginxItemListByIdc(idc)
+            service_list_info.append(service_list)
+
+        print service_list_info
 

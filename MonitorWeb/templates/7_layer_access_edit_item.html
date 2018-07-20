@@ -20,14 +20,15 @@
             <div class="control-group">
 		      <label class="control-label" for="service">接入业务名称</label>
 		      <div class="controls">
-		        <td><input id="service" size=60 class="7_layer_access_new_item_input" type="text" name='service' value={{ instance.service }}></td>
+		        <td><input id="service" size=60 class="7_layer_access_new_item_input" type="text" name='service' value="{{ instance.service }}"></td>
 		      </div>
             </div>
 
             <div class="control-group">
 		      <label class="control-label" for="idc">接入业务所在IDC</label>
 		      <div class="controls">
-		        <select id="idc" class="7_layer_access_new_item_input" name='idc' value={{ instance.idc }}>
+		        <select id="idc" class="7_layer_access_new_item_input" name='idc'>
+                    <option> {{ instance.idc }} </option>
                     {% for idc in idcList %}
 		        	<option value= {{ idc }} > {{ idc }} </option>
                     {% endfor %}
@@ -38,14 +39,14 @@
             <div class="control-group">
 		      <label class="control-label" for="domain">接入业务域名(Host)</label>
 		      <div class="controls">
-		        <td><input id="domain" size=60 class="7_layer_access_new_item_input" type="text" name='domain' value={{ instance.domain }}></td>
+		        <td><input id="domain" size=60 class="7_layer_access_new_item_input" type="text" name='domain' value="{{ instance.domain }}"></td>
 		      </div>
             </div>
 
             <div class="control-group">
 		      <label class="control-label" for="upstream">接入业务源站服务器信息(Upstream)</label>
 		      <div class="controls">
-		        <td><input id="upstream" size=60 class="7_layer_access_new_item_input" type="text" name='upstream' value={{ instance.upstream }}></td>
+		        <td><input id="upstream" size=60 class="7_layer_access_new_item_input" type="text" name='upstream' value="{{ instance.upstream }}"></td>
 		      </div>
             </div>
 		</form>

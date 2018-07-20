@@ -1024,4 +1024,7 @@ class nginxEditServiceItem(BaseHandler):
         handler = Model("7LayerNginxAccess")
         service_info = handler.Get7LayerNginxItemListByIdcService(idcName, serviceName)
 
-        self.render2('7_layer_access_edit_item.html', instance = service_info)
+        config = yaml.load(open(options.config))
+        cluster = config['7nginxCluster']
+
+        self.render2('7_layer_access_edit_item.html', instance = service_info[0], idcList = cluster['idc'])

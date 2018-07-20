@@ -1006,3 +1006,11 @@ class nginxNewServiceItem(BaseHandler):
         handler.Insert7LayerNginxItem(data)
         self.write('ok')
 
+class nginxDelServiceItem(BaseHandler):
+    @tornado.web.authenticated
+    def post(self):
+        data = tornado.escape.json_decode(self.request.body)
+
+        handler = Model('7LayerNginxAccess')
+        handler.Remove7LayerNginxItem(data.idc, data.service)
+        self.write('ok')

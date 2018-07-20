@@ -89,6 +89,7 @@ class Application(tornado.web.Application):
         nginx_path = [
             (r"/7_layer_access/",           control.nginxGetServiceList),
             (r"/7_layer_access_new_item/",  control.nginxNewServiceItem),
+            (r"/7_layer_access_del_item/",  control.nginxDelServiceItem),
 
         ]
 

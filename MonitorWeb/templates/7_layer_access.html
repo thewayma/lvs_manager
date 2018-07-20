@@ -51,17 +51,17 @@
 </div>
 
 <script type="text/javascript">
-	function remove_instance(instance_idcName, instance_serviceName) {
+	function remove_instance(idcName, serviceName) {
 		bootbox.confirm("警告: 是否删除7层接入实例:"+ instance_serviceName, function(result) {
 			if ( result ) {
-				var _post_data = $.toJSON({"id":vip_instance_id})
+				var _post_data = $.toJSON({"idc": idcName, "service": serviceName})
 				$.ajax({
 					  type: 'POST' ,
-			          url: '/lvsmanager_deploy_del/' ,
+			          url: '/7_layer_access_del_item/' ,
 			          data: _post_data ,
 			          cache: false ,
 			          success: function(data) {
-			               	window.location.href="/lvsmanager_deploy/?id={{ cluster }}"
+			               	window.location.href="/7_layer_access/"
 			          },
 			      });
 			}

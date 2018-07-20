@@ -52,7 +52,7 @@
 
 <script type="text/javascript">
 	function remove_instance(idcName, serviceName) {
-		bootbox.confirm("警告: 是否删除7层接入实例:"+ instance_serviceName, function(result) {
+		bootbox.confirm("警告: 是否删除7层接入实例:"+ serviceName, function(result) {
 			if ( result ) {
 				var _post_data = $.toJSON({"idc": idcName, "service": serviceName})
 				$.ajax({

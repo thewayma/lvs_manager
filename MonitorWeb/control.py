@@ -1012,5 +1012,5 @@ class nginxDelServiceItem(BaseHandler):
         data = tornado.escape.json_decode(self.request.body)
 
         handler = Model('7LayerNginxAccess')
-        handler.Remove7LayerNginxItem(data.idc, data.service)
+        handler.Remove7LayerNginxItem(data['idc'], data['service'])
         self.write('ok')

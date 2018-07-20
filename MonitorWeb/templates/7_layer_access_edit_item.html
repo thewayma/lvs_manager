@@ -5,7 +5,7 @@
   	<div class="col-md-12">
 		<ul class="breadcrumb">
 		  <li><a href="/7_layer_access/">7层接入管理</a> <span class="divider"></span></li>
-		  <li class="active">新增7层接入实例</li>
+		  <li class="active">编辑7层接入实例</li>
 		</ul>
   	</div>
   </div>
@@ -20,14 +20,14 @@
             <div class="control-group">
 		      <label class="control-label" for="service">接入业务名称</label>
 		      <div class="controls">
-		        <td><input id="service" size=60 class="7_layer_access_new_item_input" type="text" name='service' placeholder="业务名, 例如: 123-nginx"></td>
+		        <td><input id="service" size=60 class="7_layer_access_new_item_input" type="text" name='service' value={{ instance.service }}></td>
 		      </div>
             </div>
 
             <div class="control-group">
 		      <label class="control-label" for="idc">接入业务所在IDC</label>
 		      <div class="controls">
-		        <select id="idc" class="7_layer_access_new_item_input" name='idc'>
+		        <select id="idc" class="7_layer_access_new_item_input" name='idc' value={{ instance.idc }}>
                     {% for idc in idcList %}
 		        	<option value= {{ idc }} > {{ idc }} </option>
                     {% endfor %}
@@ -38,14 +38,14 @@
             <div class="control-group">
 		      <label class="control-label" for="domain">接入业务域名(Host)</label>
 		      <div class="controls">
-		        <td><input id="domain" size=60 class="7_layer_access_new_item_input" type="text" name='domain' placeholder="域名, 例如: www.thewayma.com"></td>
+		        <td><input id="domain" size=60 class="7_layer_access_new_item_input" type="text" name='domain' value={{ instance.domain }}></td>
 		      </div>
             </div>
 
             <div class="control-group">
 		      <label class="control-label" for="upstream">接入业务源站服务器信息(Upstream)</label>
 		      <div class="controls">
-		        <td><input id="upstream" size=60 class="7_layer_access_new_item_input" type="text" name='upstream' placeholder="upstream, 例如: 1.1.1.1:80,2.2.2.2,3.3.3.3:8080 即多个源站ip用,分割"></td>
+		        <td><input id="upstream" size=60 class="7_layer_access_new_item_input" type="text" name='upstream' value={{ instance.upstream }}></td>
 		      </div>
             </div>
 		</form>

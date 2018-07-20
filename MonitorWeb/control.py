@@ -1024,4 +1024,4 @@ class nginxEditServiceItem(BaseHandler):
         handler = Model("7LayerNginxAccess")
         service_info = handler.Get7LayerNginxItemListByIdcService(idcName, serviceName)
 
-        self.render2('7_layer_access.html', instanceinfo = service_info)
+        self.render2('7_layer_access_edit_item.html', instance = service_info)

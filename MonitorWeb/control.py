@@ -994,9 +994,8 @@ class nginxGetServiceList(BaseHandler):
 class nginxNewServiceItem(BaseHandler):
     @tornado.web.authenticated
     def get(self):
-        idc = self.get_argument("idc", None)
-        serviceName = self.get_argument("service", None)
+        config = yaml.load(open(options.config))
+        cluster = config['7nginxCluster']
 
-        print idc, serviceName
-        #self.render2('7_layer_access_new_item.html', )
+        self.render2('7_layer_access_new_item.html', idcList = cluster['idc'])
 

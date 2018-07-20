@@ -24,3 +24,7 @@ cluster:
     agent: ['lvs_master','lvs_slave']
     admin_mail_group: ['thewayma@163.com']
     manager_user: ['thewayma']
+
+7nginxCluster:
+    idc: [bj_nginx_cluster]
+    etcdIp: [192.168.40.139, 192.168.40.140, 192.168.40.141]

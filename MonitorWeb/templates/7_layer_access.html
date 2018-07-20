@@ -1,0 +1,71 @@
+{% extends "index.html" %}
+{% block body %}
+<div class="container">
+	<!--
+	<div class='row'>
+	  <div class="col-md-12">
+	  	<ul class="breadcrumb">
+		  <li><a href="/lvsmanager/">LVS管理</a> <span class="divider"></span></li>
+		  <li class="active">LVS配置</li>
+		</ul>
+	  </div>
+	</div>
+	-->
+
+	<div class='row'>
+		<div class='col-md-12'>
+			<h4>7层接入管理系统</h4>
+			<hr>
+			<a href="/7_layer_access_new_item" class='btn btn-success' ><span class="fui-plus"></span>新建7层接入业务</a>
+		</div>
+		</br>
+		<div class='col-md-12'>
+		{% if instanceinfo %}
+			<table id="lvsmanager_table" class="table table-bordered table-hover">
+			  <thead>
+			    <tr>
+                    <th style="width: 10%">接入业务名称</th>
+                    <th style="width: 10%">IDC</th>
+                    <th style="width: 10%">接入源站域名</th>
+                    <th style="width: 10%">接入源站IP与端口</th>
+                    <th style="width: 10%">操作</th>
+			    </tr>
+			  </thead>
+			  <tbody id='publish_table_body'>
+				  {% for instance in instanceinfo %}
+				    <tr>
+                        <td>{{ instance.service }}</td>
+                        <td>{{ instance.idc }}</td>
+                        <td>{{ instance.domain }}</td>
+                        <td>{{ instance.upstream }}</td>
+                        <td><a href="/7_layer_access_edit_item/?id={{ vipinstance._id }}" class='btn btn-sm btn-success'><span class="fui-new"></span>编辑</a> <a href="javascript:;" onClick="javascript:remove_instance('{{ instance.idc }}','{{ instance.service }}')" class='btn btn-sm btn-danger'><span class="fui-cross"></span>删除</a></td>
+				    </tr>
+				  {% endfor %}
+			  </tbody>
+			</table>
+		{% else %}
+			<p>不存在接入业务，请新增！</p>
+		{% endif %}
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function remove_instance(instance_idcName, instance_serviceName) {
+		bootbox.confirm("警告: 是否删除7层接入实例:"+ instance_serviceName, function(result) {
+			if ( result ) {
+				var _post_data = $.toJSON({"id":vip_instance_id})
+				$.ajax({
+					  type: 'POST' ,
+			          url: '/lvsmanager_deploy_del/' ,
+			          data: _post_data ,
+			          cache: false ,
+			          success: function(data) {
+			               	window.location.href="/lvsmanager_deploy/?id={{ cluster }}"
+			          },
+			      });
+			}
+		});
+	}
+</script>
+{% endblock %}

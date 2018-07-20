@@ -86,6 +86,11 @@ class Application(tornado.web.Application):
             (r"/lvsmanager_search/", control.lvsManagerSearch),
         ]
 
+        nginx_path = [
+            (r"/7_layer_access", control.nginxGetServiceList),
+
+        ]
+
         handlers = api_path + web_path
         settings = dict(
             template_path=os.path.join(cur_dir,'templates/'),

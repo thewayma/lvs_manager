@@ -968,3 +968,18 @@ class lvsManagerSearch(BaseHandler):
             handler = Model('LvsManagerConfig')
             result = handler.getLvsManagerConfigSearchrs(rs)
             self.render2('lvsmanager_search.html',result = result)
+
+
+
+class nginxGetServiceList(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        config = yaml.load(open(options.config))
+        cluster = config['7nginxCluster']
+
+        idc_list = cluster['idc']
+        etcdip = cluster['etcdIp']
+
+        print idc_list
+        print etcdip
+

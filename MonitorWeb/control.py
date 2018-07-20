@@ -1033,5 +1033,5 @@ class nginxEditServiceItem(BaseHandler):
         data = tornado.escape.json_decode(self.request.body)
 
         handler = Model('7LayerNginxAccess')
-        handler.Insert7LayerNginxItem(data)
+        handler.Updata7LayerNginxItem(data['idc'], data['service'], data['domain'], data['upstream'])
         self.write('ok')

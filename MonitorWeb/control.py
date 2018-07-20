@@ -1028,3 +1028,10 @@ class nginxEditServiceItem(BaseHandler):
         cluster = config['7nginxCluster']
 
         self.render2('7_layer_access_edit_item.html', instance = service_info[0], idcList = cluster['idc'])
+
+    def post(self):
+        data = tornado.escape.json_decode(self.request.body)
+
+        handler = Model('7LayerNginxAccess')
+        handler.Insert7LayerNginxItem(data)
+        self.write('ok')

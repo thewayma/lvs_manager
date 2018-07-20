@@ -38,7 +38,7 @@
                         <td>{{ instance.idc }}</td>
                         <td>{{ instance.domain }}</td>
                         <td>{{ instance.upstream }}</td>
-                        <td><a href="/7_layer_access_edit_item/?id={{ vipinstance._id }}" class='btn btn-sm btn-success'><span class="fui-new"></span>编辑</a> <a href="javascript:;" onClick="javascript:remove_instance('{{ instance.idc }}','{{ instance.service }}')" class='btn btn-sm btn-danger'><span class="fui-cross"></span>删除</a></td>
+                        <td><a href="/7_layer_access_edit_item/?id={{ instance.service }}" class='btn btn-sm btn-success'><span class="fui-new"></span>编辑</a> <a href="javascript:;" onClick="javascript:remove_instance('{{ instance.idc }}','{{ instance.service }}')" class='btn btn-sm btn-danger'><span class="fui-cross"></span>删除</a></td>
 				    </tr>
 				  {% endfor %}
 			  </tbody>

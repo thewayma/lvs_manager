@@ -323,5 +323,8 @@ class Model():
         result = self.db['7LayerNginxAccess'].find({"idc": idcName})
         return list(result)
 
+    def Get7LayerNginxItemListByIdcService(self, idcName, serviceName):
+        result = self.db['7LayerNginxAccess'].find_one({"idc": idcName, "service": serviceName})
+        return list(result)
 
 

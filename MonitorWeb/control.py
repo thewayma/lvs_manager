@@ -1014,3 +1014,14 @@ class nginxDelServiceItem(BaseHandler):
         handler = Model('7LayerNginxAccess')
         handler.Remove7LayerNginxItem(data['idc'], data['service'])
         self.write('ok')
+
+class nginxEditServiceItem(BaseHandler):
+    @tornado.web.authenticated
+    def get(self):
+        idcName = self.get_argument("idc", None)
+        serviceName = self.get_argument("service", None)
+
+        handler = Model("7LayerNginxAccess")
+        service_info = handler.Get7LayerNginxItemListByIdcService(idcName, serviceName)
+
+        self.render2('7_layer_access.html', instanceinfo = service_info)

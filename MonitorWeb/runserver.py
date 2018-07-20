@@ -90,6 +90,7 @@ class Application(tornado.web.Application):
             (r"/7_layer_access/",           control.nginxGetServiceList),
             (r"/7_layer_access_new_item/",  control.nginxNewServiceItem),
             (r"/7_layer_access_del_item/",  control.nginxDelServiceItem),
+            (r"7_layer_access_edit_item/",  control),
 
         ]
 

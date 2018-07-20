@@ -999,3 +999,10 @@ class nginxNewServiceItem(BaseHandler):
 
         self.render2('7_layer_access_new_item.html', idcList = cluster['idc'])
 
+    def post(self):
+        data = tornado.escape.json_decode(self.request.body)
+
+        handler = Model('7LayerNginxAccess')
+        handler.Insert7LayerNginxItem(data)
+        self.write('ok')
+

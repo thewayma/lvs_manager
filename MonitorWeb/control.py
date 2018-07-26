@@ -1008,7 +1008,7 @@ class nginxNewServiceItem(BaseHandler):
 
         if item:
             self.write('serviceName=%s and idc=%s, existed' %(data['service'], data['idc']))
-            print 'serviceName=%s and idc=%s, existed' %(data['service'], data['idc'])
+            print 'serviceName=%s and idc=%s, existed, nginxNewServiceItem failure' %(data['service'], data['idc'])
         else:
             handler.Insert7LayerNginxItem(data)
 

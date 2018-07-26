@@ -1010,12 +1010,24 @@ class nginxNewServiceItem(BaseHandler):
         etcdIpList = config['7nginxCluster']['etcdIp']
         etcdServerTuple = ((etcdIpList[0], options.etcdServerPort), (etcdIpList[1], options.etcdServerPort), (etcdIpList[2], options.etcdServerPort))
 
-        print etcdServerTuple
+        #print etcdServerTuple
+
+        subDomainKey    = "/7/%s/%s/subDomain" %(data['idc'], data['service'])
+        subDomainValue  = data['domain']
+        upStreamKey     = "/7/%s/%s/upStream" %(data['idc'], data['service'])
+        upStreamValue   = data['upstream']
+        #print "%s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
 
         client = etcd.Client(etcdServerTuple, allow_reconnect=True)
 
+        try:
+            client.write(subDomainKey, subDomainValue)
+            client.write(upStreamKey, upStreamValue)
 
-        self.write('ok')
+            self.write('etcd update success')
+        except:
+            self.write('etcd update failure!')
+
 
 class nginxDelServiceItem(BaseHandler):
     @tornado.web.authenticated

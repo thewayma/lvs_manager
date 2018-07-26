@@ -7,7 +7,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
-import unicodedata
+#import unicodedata
 #import motor
 import yaml
 import json
@@ -22,7 +22,8 @@ import socket
 from bytesformat import bytes2human
 import codecs
 from bson.objectid import ObjectId
-import urllib2
+#import urllib2
+import etcd
 
 
 def search_cluster(id): 
@@ -1004,6 +1005,16 @@ class nginxNewServiceItem(BaseHandler):
 
         handler = Model('7LayerNginxAccess')
         handler.Insert7LayerNginxItem(data)
+
+        config = yaml.load(open(options.config))
+        etcdIpList = config['7nginxCluster']['etcdIp']
+        etcdServerTuple = ((etcdIpList[0], options.etcdServerPort), (etcdIpList[1], options.etcdServerPort), (etcdIpList[2], options.etcdServerPort))
+
+        print etcdServerTuple
+
+        client = etcd.Client(etcdServerTuple, allow_reconnect=True)
+
+
         self.write('ok')
 
 class nginxDelServiceItem(BaseHandler):

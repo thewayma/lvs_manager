@@ -1004,29 +1004,35 @@ class nginxNewServiceItem(BaseHandler):
         data = tornado.escape.json_decode(self.request.body)
 
         handler = Model('7LayerNginxAccess')
-        handler.Insert7LayerNginxItem(data)
+        item = handler.Get7LayerNginxItemListByIdcService(data['idc'], data['service'])
 
-        config = yaml.load(open(options.config))
-        etcdIpList = config['7nginxCluster']['etcdIp']
-        etcdServerTuple = ((etcdIpList[0], options.etcdServerPort), (etcdIpList[1], options.etcdServerPort), (etcdIpList[2], options.etcdServerPort))
+        if item:
+            self.write('serviceName=%s and idc=%s, existed' %(data['service'], data['idc']))
+            print 'serviceName=%s and idc=%s, existed' %(data['service'], data['idc'])
+        else:
+            handler.Insert7LayerNginxItem(data)
 
-        #print etcdServerTuple
+            config = yaml.load(open(options.config))
+            etcdIpList = config['7nginxCluster']['etcdIp']
+            etcdServerTuple = ((etcdIpList[0], options.etcdServerPort), (etcdIpList[1], options.etcdServerPort), (etcdIpList[2], options.etcdServerPort))
 
-        subDomainKey    = "/7/%s/%s/subDomain" %(data['idc'], data['service'])
-        subDomainValue  = data['domain']
-        upStreamKey     = "/7/%s/%s/upStream" %(data['idc'], data['service'])
-        upStreamValue   = data['upstream']
-        #print "%s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
+            #print etcdServerTuple
 
-        client = etcd.Client(etcdServerTuple, allow_reconnect=True)
+            subDomainKey    = "/7/%s/%s/subDomain" %(data['idc'], data['service'])
+            subDomainValue  = data['domain']
+            upStreamKey     = "/7/%s/%s/upStream" %(data['idc'], data['service'])
+            upStreamValue   = data['upstream']
+            #print "%s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
 
-        try:
-            client.write(subDomainKey, subDomainValue)
-            client.write(upStreamKey, upStreamValue)
+            client = etcd.Client(etcdServerTuple, allow_reconnect=True)
 
-            self.write('etcd update success')
-        except:
-            self.write('etcd update failure!')
+            try:
+                client.write(subDomainKey, subDomainValue)
+                client.write(upStreamKey, upStreamValue)
+
+                self.write('etcd update success')
+            except:
+                self.write('etcd update failure!')
 
 
 class nginxDelServiceItem(BaseHandler):

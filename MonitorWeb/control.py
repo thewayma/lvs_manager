@@ -974,6 +974,12 @@ class lvsManagerSearch(BaseHandler):
 """
     以下为7层接入管控业务
 """
+def buildEtcdClient(config):
+    etcdIpList = config['7nginxCluster']['etcdIp']
+    etcdServerTuple = ((etcdIpList[0], options.etcdServerPort), (etcdIpList[1], options.etcdServerPort), (etcdIpList[2], options.etcdServerPort))
+
+    return etcd.Client(etcdServerTuple, allow_reconnect=True)
+
 class nginxGetServiceList(BaseHandler):
     @tornado.web.authenticated
     def get(self):
@@ -1008,15 +1014,9 @@ class nginxNewServiceItem(BaseHandler):
 
         if item:
             self.write('serviceName=%s and idc=%s, existed' %(data['service'], data['idc']))
-            print 'serviceName=%s and idc=%s, existed, nginxNewServiceItem failure' %(data['service'], data['idc'])
+            print 'serviceName=%s and idc=%s, existed in ETCD' %(data['service'], data['idc'])
         else:
-            handler.Insert7LayerNginxItem(data)
-
-            config = yaml.load(open(options.config))
-            etcdIpList = config['7nginxCluster']['etcdIp']
-            etcdServerTuple = ((etcdIpList[0], options.etcdServerPort), (etcdIpList[1], options.etcdServerPort), (etcdIpList[2], options.etcdServerPort))
-
-            #print etcdServerTuple
+            client = buildEtcdClient(handler.config)
 
             subDomainKey    = "/7/%s/%s/subDomain" %(data['idc'], data['service'])
             subDomainValue  = data['domain']
@@ -1024,25 +1024,41 @@ class nginxNewServiceItem(BaseHandler):
             upStreamValue   = data['upstream']
             #print "%s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
 
-            client = etcd.Client(etcdServerTuple, allow_reconnect=True)
-
             try:
                 client.write(subDomainKey, subDomainValue)
                 client.write(upStreamKey, upStreamValue)
 
-                self.write('etcd update success')
-            except:
-                self.write('etcd update failure!')
+                handler.Insert7LayerNginxItem(data)
 
+                self.write('etcd new node success')
+                print 'serviceName=%s and idc=%s, added successful in ETCD' %(data['service'], data['idc'])
+            except:
+                self.write('etcd new node failure')
+                print 'serviceName=%s and idc=%s, added failure in ETCD' %(data['service'], data['idc'])
 
 class nginxDelServiceItem(BaseHandler):
     @tornado.web.authenticated
     def post(self):
         data = tornado.escape.json_decode(self.request.body)
 
+        subDomainKey = "/7/%s/%s/subDomain" %(data['idc'], data['service'])
+        upStreamKey = "/7/%s/%s/upStream" %(data['idc'], data['service'])
+
         handler = Model('7LayerNginxAccess')
-        handler.Remove7LayerNginxItem(data['idc'], data['service'])
-        self.write('ok')
+        client = buildEtcdClient(handler.config)
+
+        try:
+            client.delete(subDomainKey)
+            client.delete(upStreamKey)
+
+            handler.Remove7LayerNginxItem(data['idc'], data['service'])
+
+            self.write('ok')
+            print 'serviceName=%s and idc=%s, deleted successful in ETCD' %(data['service'], data['idc'])
+        except:
+            self.write('etcd delete failure')
+            print 'serviceName=%s and idc=%s, deleted failure in ETCD' %(data['service'], data['idc'])
+
 
 class nginxEditServiceItem(BaseHandler):
     @tornado.web.authenticated
@@ -1053,7 +1069,7 @@ class nginxEditServiceItem(BaseHandler):
         handler = Model("7LayerNginxAccess")
         service_info = handler.Get7LayerNginxItemListByIdcService(idcName, serviceName)
 
-        config = yaml.load(open(options.config))
+        config = handler.config
         cluster = config['7nginxCluster']
 
         self.render2('7_layer_access_edit_item.html', instance = service_info[0], idcList = cluster['idc'])
@@ -1062,5 +1078,23 @@ class nginxEditServiceItem(BaseHandler):
         data = tornado.escape.json_decode(self.request.body)
 
         handler = Model('7LayerNginxAccess')
-        handler.Updata7LayerNginxItem(data['idc'], data['service'], data['domain'], data['upstream'])
-        self.write('ok')
+
+        subDomainKey    = "/7/%s/%s/subDomain" %(data['idc'], data['service'])
+        subDomainValue  = data['domain']
+        upStreamKey     = "/7/%s/%s/upStream" %(data['idc'], data['service'])
+        upStreamValue   = data['upstream']
+        #print "%s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
+
+        client = buildEtcdClient(handler.config)
+
+        try:
+            client.write(subDomainKey, subDomainValue)
+            client.write(upStreamKey, upStreamValue)
+
+            handler.Updata7LayerNginxItem(data['idc'], data['service'], data['domain'], data['upstream'])
+
+            self.write('ok')
+            print 'serviceName=%s and idc=%s, updated successful in ETCD' %(data['service'], data['idc'])
+        except:
+            self.write('etcd updated failure')
+            print 'serviceName=%s and idc=%s, updated failure in ETCD' %(data['service'], data['idc'])

@@ -1025,10 +1025,10 @@ class nginxNewServiceItem(BaseHandler):
             #print "%s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
 
             try:
+                handler.Insert7LayerNginxItem(data)
+
                 client.write(subDomainKey, subDomainValue)
                 client.write(upStreamKey, upStreamValue)
-
-                handler.Insert7LayerNginxItem(data)
 
                 self.write('etcd new node success')
                 print 'serviceName=%s and idc=%s, added successful in ETCD' %(data['service'], data['idc'])
@@ -1048,10 +1048,10 @@ class nginxDelServiceItem(BaseHandler):
         client = buildEtcdClient(handler.config)
 
         try:
+            handler.Remove7LayerNginxItem(data['idc'], data['service'])
+
             client.delete(subDomainKey)
             client.delete(upStreamKey)
-
-            handler.Remove7LayerNginxItem(data['idc'], data['service'])
 
             self.write('ok')
             print 'serviceName=%s and idc=%s, deleted successful in ETCD' %(data['service'], data['idc'])
@@ -1088,10 +1088,10 @@ class nginxEditServiceItem(BaseHandler):
         client = buildEtcdClient(handler.config)
 
         try:
+            handler.Updata7LayerNginxItem(data['idc'], data['service'], data['domain'], data['upstream'])
+
             client.write(subDomainKey, subDomainValue)
             client.write(upStreamKey, upStreamValue)
-
-            handler.Updata7LayerNginxItem(data['idc'], data['service'], data['domain'], data['upstream'])
 
             self.write('ok')
             print 'serviceName=%s and idc=%s, updated successful in ETCD' %(data['service'], data['idc'])

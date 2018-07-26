@@ -1059,7 +1059,6 @@ class nginxDelServiceItem(BaseHandler):
             self.write('etcd delete failure')
             print 'serviceName=%s and idc=%s, deleted failure in ETCD' %(data['service'], data['idc'])
 
-
 class nginxEditServiceItem(BaseHandler):
     @tornado.web.authenticated
     def get(self):

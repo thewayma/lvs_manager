@@ -62,6 +62,7 @@
 			      <th style="width: 15%">健康检查方式</th>
                   <th style="width: 15%">健康检查周期(s)</th>
                   <th style="width: 15%">最大连续失败次数</th>
+                  <th style="width: 15%">操作</th>
 			    </tr>
 			  </thead>
 			  <tbody id='rs_table_body'>
@@ -108,19 +109,18 @@
                     </div>
                 </div>
 
-                <div id="monitor_method">
-                    <div class="control-group">
-                        <label class="control-label" for="fail_timeout">fail_timeout</label>
-                        <div class="controls">
-                            <td><input id="fail_timeout" class="monitor_method_input" type="text" name='fail_timeout'><span class="help-block">健康检查的检测周期，单位：秒</span></td>
-                        </div>
-                    </div>
 
-                    <div class="control-group">
-                        <label class="control-label" for="max_fails">max_fails</label>
-                        <div class="controls">
-                            <td><input id="max_fails" class="monitor_method_input" type="text" name='max_fails'><span class="help-block">检测周内的最大失败次数，到达该阈值后，则认为RS为down； 设为0，则关闭监控检查功能</span><</td>
-                        </div>
+                <div class="control-group">
+                    <label class="control-label" for="fail_timeout">fail_timeout</label>
+                    <div class="controls">
+                        <td><input id="fail_timeout" type="text" name='fail_timeout'><span class="help-block">健康检查的检测周期，单位：秒</span></td>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="max_fails">max_fails</label>
+                    <div class="controls">
+                        <td><input id="max_fails" type="text" name='max_fails'><span class="help-block">检测周内的最大失败次数，到达该阈值后，则认为RS为down； 设为0，则关闭监控检查功能</span></td>
                     </div>
                 </div>
 
@@ -166,8 +166,8 @@
         for (rs in rs_list) {
             _rs = rs_list[rs]
             html += '<tr><td>' + _rs['website_ip'] + '</td><td>' + _rs['website_port'] + '</td><td>' +
-                _rs['website_weight'] + '</td><td>' + _rs['monitor']['type'] + '</td><td>' + _rs['monitor']['fail_timeout'] +'</td><td>' +
-                _rs['monitor']['max_fails'] + '</td><td> <a href="javascript:rs_remove(' + rs + ')" ><span class="fui-cross"></span>delete</a></td></tr>'
+                _rs['website_weight'] + '</td><td>' + _rs['monitor_type'] + '</td><td>' + _rs['fail_timeout'] +'</td><td>' +
+                _rs['max_fails'] + '</td><td> <a href="javascript:rs_remove(' + rs + ')" ><span class="fui-cross"></span>delete</a> <a style="position: relative ; left: 10px;" href="javascript:rs_edit(' + rs + ')" ><span class="fui-new"></span>edit</a> </td></tr>'
         }
         $("#rs_table_body").html(html)
     };
@@ -177,6 +177,21 @@
         rs_table() ;
     };
 
+    function rs_edit(rs_num) {
+        $( "#dialog-form-edit" ).dialog( "open" );
+        rs_num_now = rs_num
+        obj = rs_list[rs_num] ;
+        obj_monitor = obj['monitor']
+        $("#website_ip").val(obj['website_ip'])
+        $("#website_port").val(obj['website_port'])
+        $("#website_weight").val(obj['website_weight'])
+        $("#monitor_type").val(obj['monitor_type'])
+        $("#max_fails").val(obj['max_fails'])
+        $("#fail_timeout").val(obj['fail_timeout'])
+
+        console.log(rs_list[rs_num]) ;
+    }
+
     $( "#dialog-form" ).dialog({
         autoOpen: false,
         height: 600,
@@ -185,19 +200,18 @@
         buttons: {
             "保存": function() {
                 monitor_new = new Object ;
-                monitor = new Object ;
+
                 monitor_new['website_ip'] = $("#website_ip").val() ;
                 monitor_new['website_port'] = $("#website_port").val() ;
                 monitor_new['website_weight'] = $("#website_weight").val() ;
-                monitor['type'] = $("#monitor_type").val() ;
-                $(".monitor_method_input").each(function() {
-                    var key = $(this).attr('id') ;
-                    var value = $(this).val() ;
-                    monitor[key] = value ;
-                })
-                monitor_new['monitor'] = monitor ;
+                monitor_new['monitor_type'] = $("#monitor_type").val();
+                monitor_new['fail_timeout'] = $("#fail_timeout").val();
+                monitor_new['max_fails'] = $("#max_fails").val();
+
                 rs_list.push(monitor_new) ;
+
                 rs_table() ;
+
                 $( this ).dialog( "close" );
             },
             "返回": function() {

@@ -128,7 +128,7 @@
         </form>
     </div>
 
-    <div id="dialog-form-edit" title="新增RS配置">
+    <div id="dialog-form-edit" title="修改RS配置">
         <form>
             <fieldset>
                 <div class="control-group">
@@ -180,13 +180,15 @@
         </form>
     </div>
 
+
+
 </div>
 
 
 <script type="text/javascript">
 	$("#7_layer_access_new_item_submit").click(function() {
 		post_data = new Object() ;
-		$(".7_layer_access_new_item_input").each(function() {
+		$("7_layer_access_new_item_input").each(function() {
 			var key = $(this).attr('id') ;
 			var value = $(this).val() ;
 			post_data[key] = value ;

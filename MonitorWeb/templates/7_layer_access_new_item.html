@@ -281,6 +281,39 @@
 
     });
 
+    $( "#dialog-form-edit" ).dialog({
+        autoOpen: false,
+        height: 600,
+        width: 400,
+        modal: true,
+        buttons: {
+            "保存修改": function() {
+                monitor_new = new Object ;
+
+                monitor_new['website_ip'] = $("#edit_website_ip").val() ;
+                monitor_new['website_port'] = $("#edit_website_port").val() ;
+                monitor_new['website_weight'] = $("#edit_website_weight").val() ;
+                monitor_new['monitor_type'] = $("#edit_monitor_type").val() ;
+                monitor_new['fail_timeout'] = $("#edit_fail_timeout").val();
+                monitor_new['max_fails'] = $("#edit_max_fails").val();
+
+                rs_list[rs_num_now] = monitor_new;
+
+                rs_table() ;
+
+                $( this ).dialog( "close" );
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        close: function() {
+
+        }
+
+    });
+
+
     $("#rs_add").click(function() {
         $( "#dialog-form" ).dialog( "open" );
     });

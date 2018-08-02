@@ -128,57 +128,7 @@
         </form>
     </div>
 
-    <div id="dialog-form-edit" title="修改RS配置">
-        <form>
-            <fieldset>
-                <div class="control-group">
-                    <label class="control-label" for="website_ip">源站IP</label>
-                    <div class="controls">
-                        <td><input id="website_ip" type="text" name='website_ip'><span class="help-block">RealServer IP</span></td>
-                    </div>
-                </div>
 
-                <div class="control-group">
-                    <label class="control-label" for="website_port">源站端口</label>
-                    <div class="controls">
-                        <td><input id="website_port" type="text" name='website_port'><span class="help-block">RealServer Port</span></td>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label" for="website_weight">权重</label>
-                    <div class="controls">
-                        <td><input id="website_weight" type="text" name='website_weight'><span class="help-block">调度权重, 默认值为1</span></td>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label" for="monitor_type">健康检查方式</label>
-                    <div class="controls">
-                        <select id="monitor_type" name='monitor_type'>
-                            <option value='HTTP_GET'>HTTP_GET</option>
-                        </select>
-                    </div>
-                </div>
-
-
-                <div class="control-group">
-                    <label class="control-label" for="fail_timeout">fail_timeout</label>
-                    <div class="controls">
-                        <td><input id="fail_timeout" type="text" name='fail_timeout'><span class="help-block">健康检查的检测周期，单位：秒</span></td>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label" for="max_fails">max_fails</label>
-                    <div class="controls">
-                        <td><input id="max_fails" type="text" name='max_fails'><span class="help-block">检测周内的最大失败次数，到达该阈值后，则认为RS为down； 设为0，则关闭监控检查功能</span></td>
-                    </div>
-                </div>
-
-            </fieldset>
-        </form>
-    </div>
 
 
 

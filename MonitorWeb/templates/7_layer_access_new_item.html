@@ -172,6 +172,11 @@
         $("#rs_table_body").html(html)
     };
 
+    function rs_remove(rs_num) {
+        delete rs_list[rs_num] ;
+        rs_table() ;
+    };
+
     $( "#dialog-form" ).dialog({
         autoOpen: false,
         height: 600,
@@ -195,7 +200,7 @@
                 rs_table() ;
                 $( this ).dialog( "close" );
             },
-            Cancel: function() {
+            "返回": function() {
                 $( this ).dialog( "close" );
             }
         },

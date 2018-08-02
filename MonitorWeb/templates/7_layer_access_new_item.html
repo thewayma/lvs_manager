@@ -71,6 +71,64 @@
 		<a href="/7_layer_access/" style="position: relative;left: 800px;" class='btn btn-primary'><span class="fui-arrow-left"></span>返回</a>
   	</div>
   </div>
+
+
+    <div id="dialog-form" title="新增RS配置">
+        <form>
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label" for="website_ip">源站IP</label>
+                    <div class="controls">
+                        <td><input id="website_ip" type="text" name='website_ip'><span class="help-block">RealServer IP</span></td>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="website_port">源站端口</label>
+                    <div class="controls">
+                        <td><input id="website_port" type="text" name='website_port'><span class="help-block">RealServer Port</span></td>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="website_weight">权重</label>
+                    <div class="controls">
+                        <td><input id="website_weight" type="text" name='website_weight'><span class="help-block">调度权重, 默认值为1</span></td>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="monitor_type">健康检查方式</label>
+                    <div class="controls">
+                        <select id="monitor_type" name='monitor_type'>
+                            <option value='HTTP_GET'>HTTP_GET</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="monitor_method">
+                    <div class="control-group">
+                        <label class="control-label" for="fail_timeout">fail_timeout</label>
+                        <div class="controls">
+                            <td><input id="fail_timeout" class="monitor_method_input" type="text" name='fail_timeout'><span class="help-block">健康检查的检测周期，单位：秒</span></td>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="max_fails">max_fails</label>
+                        <div class="controls">
+                            <td><input id="max_fails" class="monitor_method_input" type="text" name='max_fails'><span class="help-block">检测周内的最大失败次数，到达该阈值后，则认为RS为down； 设为0，则关闭监控检查功能</span><</td>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+
+
+
+
 </div>
 
 
@@ -101,5 +159,44 @@
       });
 
 	})
+
+    $( "#dialog-form" ).dialog({
+        autoOpen: false,
+        height: 600,
+        width: 400,
+        modal: true,
+        buttons: {
+            "保存": function() {
+                monitor_new = new Object ;
+                monitor = new Object ;
+                monitor_new['website_ip'] = $("#website_ip").val() ;
+                monitor_new['website_port'] = $("#website_port").val() ;
+                monitor_new['website_weight'] = $("#website_weight").val() ;
+                monitor['type'] = $("#monitor_type").val() ;
+                $(".monitor_method_input").each(function() {
+                    var key = $(this).attr('id') ;
+                    var value = $(this).val() ;
+                    monitor[key] = value ;
+                })
+                monitor_new['monitor'] = monitor ;
+                rs_list.push(monitor_new) ;
+                rs_table() ;
+                $( this ).dialog( "close" );
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        close: function() {
+
+        }
+
+    });
+
+    $("#rs_add").click(function() {
+        $( "#dialog-form" ).dialog( "open" );
+    });
+
+
 </script>
 {% endblock %}

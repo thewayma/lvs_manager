@@ -147,6 +147,20 @@
 
 
 <script type="text/javascript">
+    var rs_list = []
+    var rs_num_now
+
+    $.ajax({
+        type: 'GET' ,
+        url: '/7_layer_access_get_rs_list/?idc={{ instance.idc }}&service={{ instance.service }}' ,
+        data_type: 'json' ,
+        cache: false ,
+        success: function(data) {
+            rs_list = $.parseJSON(data) ;
+            rs_table() ;
+        },
+    });
+
 	$("#7_layer_access_new_item_submit").click(function() {
 		post_data = new Object() ;
 		$(".7_layer_access_new_item_input").each(function() {
@@ -175,8 +189,6 @@
 	})
 
 
-    var rs_list = []
-	var rs_num_now
 
 
     function rs_table() {

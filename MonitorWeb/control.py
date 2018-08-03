@@ -1104,3 +1104,19 @@ class nginxEditServiceItem(BaseHandler):
         except:
             self.write('etcd updated failure')
             print 'serviceName=%s and idc=%s, updated failure in ETCD' %(data['service'], data['idc'])
+
+class nginxGetRsListByIdcService(BaseHandler):
+    def get(self):
+        '''
+        get rs list
+        '''
+
+        idcName = self.get_argument("idc", None)
+        serviceName = self.get_argument("service", None)
+
+        handler = Model('7LayerNginxAccess')
+
+        instance = handler.Get7LayerNginxItemListByIdcService(idcName, serviceName)
+
+        if instance[0]:
+            self.write(json.dumps(instance[0]['rs']))

@@ -267,7 +267,7 @@
 
     $( "#dialog-form" ).dialog({
         autoOpen: false,
-        height: 700,
+        height: 650,
         width: 400,
         modal: true,
         buttons: {
@@ -306,7 +306,7 @@
 
     $( "#dialog-form-edit" ).dialog({
         autoOpen: false,
-        height: 700,
+        height: 650,
         width: 400,
         modal: true,
         buttons: {
@@ -338,19 +338,15 @@
         rs_num_now = rs_num
         obj = rs_list[rs_num] ;
 
-        $("#edit_website_ip").val(obj['edit_website_ip'])
-        $("#edit_website_port").val(obj['edit_website_port'])
-        $("#edit_website_weight").val(obj['edit_website_weight'])
-        $("#edit_healthchecker_type").val(obj['edit_healthchecker_type'])
-        $("#edit_healthchecker_fail_timeout").val(obj['edit_healthchecker_fail_timeout'])
-        $("#edit_healthchecker_max_fails").val(obj['edit_healthchecker_max_fails'])
+        $("#edit_website_ip").val(obj['website_ip'])
+        $("#edit_website_port").val(obj['website_port'])
+        $("#edit_website_weight").val(obj['website_weight'])
+        $("#edit_healthchecker_type").val(obj['healthchecker_type'])
+        $("#edit_healthchecker_fail_timeout").val(obj['healthchecker_fail_timeout'])
+        $("#edit_healthchecker_max_fails").val(obj['healthchecker_max_fails'])
 
         console.log(rs_list[rs_num]) ;
     }
-
-
-
-
 
 </script>
 {% endblock %}

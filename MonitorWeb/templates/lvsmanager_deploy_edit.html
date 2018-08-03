@@ -149,7 +149,7 @@
 			      <th>操作</th>
 			    </tr>
 			  </thead>
-			  <tbody id='rs_talbe_body'>
+			  <tbody id='rs_table_body'>
 			  {% for rs in vipinstance.rs %}
 			  <tr>
 			  	<td>{{ rs.manager_ip }}</td>
@@ -444,7 +444,7 @@
 			html += '<tr><td>' + _rs['manager_ip'] + '</td><td>' + _rs['server_ip'] + '</td><td>' +
 			_rs['weight'] + '</td><td>' + _rs['port'] + '</td><td>' +_rs['monitor']['type'] + '</td><td><a href="javascript:rs_remove(' + rs + ')" ><span class="fui-cross"></span>delete</a><a style="position: relative ; left: 10px;" href="javascript:rs_edit(' + rs + ')" ><span class="fui-new"></span>edit</a></td></tr>'
 		}
-		$("#rs_talbe_body").html(html)
+		$("#rs_table_body").html(html)
 	};
 
 

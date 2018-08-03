@@ -1018,7 +1018,6 @@ class nginxNewServiceItem(BaseHandler):
         else:
             client = buildEtcdClient(handler.config)
 
-
             subDomainKey    = "/7/%s/%s/subDomain" %(data['idc'], data['service'])
             subDomainValue  = data['domain']
             upStreamKey     = "/7/%s/%s/upStream" %(data['idc'], data['service'])
@@ -1031,7 +1030,6 @@ class nginxNewServiceItem(BaseHandler):
             upStreamValue = ",".join(rs_list)
 
             print "%s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
-
 
             try:
                 handler.Insert7LayerNginxItem(data)

@@ -44,9 +44,9 @@
             </div>
 
             <div class="control-group">
-		      <label class="control-label" for="upstream">接入业务源站服务器信息(Upstream)</label>
+		      <label class="control-label" for="vport">接入业务连接端口(vport)</label>
 		      <div class="controls">
-		        <td><input id="upstream" size=60 class="7_layer_access_edit_item_input" type="text" name='upstream' value="{{ instance.upstream }}"></td>
+		        <td><input id="vport" size=60 class="7_layer_access_edit_item_input" type="text" name='vport' value="{{ instance.vport }}"></td>
 		      </div>
             </div>
 		</form>
@@ -207,7 +207,7 @@
         for (rs in rs_list) {
             _rs = rs_list[rs]
             html += '<tr><td>' + _rs['website_ip'] + '</td><td>' + _rs['website_port'] + '</td><td>' +
-                _rs['website_weight'] + '</td><td>' + _rs['healthchecker_type'] + '</td><td>' +_rs['healthchecker_fail_timeout'] + '</td><td>' + _rs['healthchecker_max_fails'] +'</td><td><a href="javascript:rs_remove(' + rs + ')" ><span class="fui-cross"></span>delete</a></td></tr>'
+                _rs['website_weight'] + '</td><td>' + _rs['healthchecker_type'] + '</td><td>' +_rs['healthchecker_fail_timeout'] + '</td><td>' + _rs['healthchecker_max_fails'] +'</td><td><a href="javascript:rs_remove(' + rs + ')" ><span class="fui-cross"></span>delete</a><a style="position: relative ; left: 10px;" href="javascript:rs_edit(' + rs + ')" ><span class="fui-new"></span>edit</a></td></tr>'
         }
         $("#rs_table_body").html(html)
     };

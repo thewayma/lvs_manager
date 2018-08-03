@@ -27,7 +27,6 @@
                     <th style="width: 10%">接入业务名称</th>
                     <th style="width: 10%">IDC</th>
                     <th style="width: 10%">接入源站域名</th>
-                    <th style="width: 10%">接入源站IP与端口</th>
                     <th style="width: 10%">操作</th>
 			    </tr>
 			  </thead>
@@ -37,7 +36,6 @@
                         <td>{{ instance.service }}</td>
                         <td>{{ instance.idc }}</td>
                         <td>{{ instance.domain }}</td>
-                        <td>{{ instance.upstream }}</td>
                         <td><a href="/7_layer_access_edit_item/?idc={{ instance.idc }}&service={{ instance.service }}" class='btn btn-sm btn-success'><span class="fui-new"></span>编辑</a> <a href="javascript:;" onClick="javascript:remove_instance('{{ instance.idc }}','{{ instance.service }}')" class='btn btn-sm btn-danger'><span class="fui-cross"></span>删除</a></td>
 				    </tr>
 				  {% endfor %}

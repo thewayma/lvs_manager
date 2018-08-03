@@ -1012,6 +1012,8 @@ class nginxNewServiceItem(BaseHandler):
         handler = Model('7LayerNginxAccess')
         item = handler.Get7LayerNginxItemListByIdcService(data['idc'], data['service'])
 
+        print data['rs']
+
         if item:
             self.write('serviceName=%s and idc=%s, existed' %(data['service'], data['idc']))
             print 'serviceName=%s and idc=%s, existed in ETCD' %(data['service'], data['idc'])

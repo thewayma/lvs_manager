@@ -267,7 +267,7 @@
 
     $( "#dialog-form" ).dialog({
         autoOpen: false,
-        height: 600,
+        height: 700,
         width: 400,
         modal: true,
         buttons: {
@@ -304,6 +304,34 @@
         rs_table() ;
     };
 
+    $( "#dialog-form-edit" ).dialog({
+        autoOpen: false,
+        height: 700,
+        width: 400,
+        modal: true,
+        buttons: {
+            "保存修改": function() {
+                monitor_new = new Object ;
+
+                monitor_new['website_ip'] = $("#edit_website_ip").val() ;
+                monitor_new['website_port'] = $("#edit_website_port").val() ;
+                monitor_new['website_weight'] = $("#edit_website_weight").val() ;
+                monitor_new['healthchecker_type'] = $("#edit_healthchecker_type").val() ;
+                monitor_new['healthchecker_fail_timeout'] = $("#edit_healthchecker_fail_timeout").val() ;
+                monitor_new['healthchecker_max_fails'] = $("#edit_healthchecker_max_fails").val() ;
+
+                rs_list[rs_num_now] = monitor_new ;
+                rs_table() ;
+                $( this ).dialog( "close" );
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        close: function() {
+
+        }
+    });
 
     function rs_edit(rs_num) {
         $( "#dialog-form-edit" ).dialog( "open" );

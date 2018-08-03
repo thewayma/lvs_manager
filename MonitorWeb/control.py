@@ -1029,7 +1029,7 @@ class nginxNewServiceItem(BaseHandler):
 
             upStreamValue = ",".join(rs_list)
 
-            print "%s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
+            print "nginxNewServiceItem: %s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
 
             try:
                 handler.Insert7LayerNginxItem(data)

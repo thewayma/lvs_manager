@@ -315,8 +315,8 @@ class Model():
         self.db['7LayerNginxAccess'].remove({"idc": idcName, "service": serviceName})
         return True
 
-    def Updata7LayerNginxItem(self, idcName, serviceName, domainInfo, upstreamInfo):
-        result = self.db['7LayerNginxAccess'].update({"idc": idcName, "service": serviceName}, {"$set": {"domain": domainInfo, "upstream": upstreamInfo}})
+    def Updata7LayerNginxItem(self, idcName, serviceName, domainInfo, rsInfo):
+        result = self.db['7LayerNginxAccess'].update({"idc": idcName, "service": serviceName}, {"$set": {"domain": domainInfo, "rs": rsInfo}})
         return True
 
     def Get7LayerNginxItemListByIdc(self, idcName):

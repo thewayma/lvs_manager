@@ -20,14 +20,14 @@
             <div class="control-group">
 		      <label class="control-label" for="service">接入业务名称</label>
 		      <div class="controls">
-		        <td><input id="service" size=60 class="7_layer_access_new_item_input" type="text" name='service' value="{{ instance.service }}"></td>
+		        <td><input id="service" size=60 class="7_layer_access_edit_item_input" type="text" name='service' value="{{ instance.service }}"></td>
 		      </div>
             </div>
 
             <div class="control-group">
 		      <label class="control-label" for="idc">接入业务所在IDC</label>
 		      <div class="controls">
-		        <select id="idc" class="7_layer_access_new_item_input" name='idc'>
+		        <select id="idc" class="7_layer_access_edit_item_input" name='idc'>
                     <option> {{ instance.idc }} </option>
                     {% for idc in idcList %}
 		        	<option value= {{ idc }} > {{ idc }} </option>
@@ -39,14 +39,14 @@
             <div class="control-group">
 		      <label class="control-label" for="domain">接入业务域名(Host)</label>
 		      <div class="controls">
-		        <td><input id="domain" size=60 class="7_layer_access_new_item_input" type="text" name='domain' value="{{ instance.domain }}"></td>
+		        <td><input id="domain" size=60 class="7_layer_access_edit_item_input" type="text" name='domain' value="{{ instance.domain }}"></td>
 		      </div>
             </div>
 
             <div class="control-group">
 		      <label class="control-label" for="upstream">接入业务源站服务器信息(Upstream)</label>
 		      <div class="controls">
-		        <td><input id="upstream" size=60 class="7_layer_access_new_item_input" type="text" name='upstream' value="{{ instance.upstream }}"></td>
+		        <td><input id="upstream" size=60 class="7_layer_access_edit_item_input" type="text" name='upstream' value="{{ instance.upstream }}"></td>
 		      </div>
             </div>
 		</form>
@@ -85,7 +85,7 @@
 
 
 
-		<button style="position: relative;left: 800px;" class='btn btn-danger' id="7_layer_access_new_item_submit" ><span class="fui-checkbox-checked"></span>提交</button>
+		<button style="position: relative;left: 800px;" class='btn btn-danger' id="7_layer_access_edit_item_submit" ><span class="fui-checkbox-checked"></span>提交</button>
 		<a href="/7_layer_access/" style="position: relative;left: 800px;" class='btn btn-primary'><span class="fui-arrow-left"></span>返回</a>
   	</div>
   </div>
@@ -161,14 +161,22 @@
         },
     });
 
-	$("#7_layer_access_new_item_submit").click(function() {
+	$("#7_layer_access_edit_item_submit").click(function() {
 		post_data = new Object() ;
-		$(".7_layer_access_new_item_input").each(function() {
+		$(".7_layer_access_edit_item_input").each(function() {
 			var key = $(this).attr('id') ;
 			var value = $(this).val() ;
 			post_data[key] = value ;
 		})
+
+        for (rs in rs_list) {
+            if ( rs_list[rs] ) {
+                _rs_list.push(rs_list[rs])
+            }
+        };
+        post_data['rs'] = _rs_list;
 		var _post_data = $.toJSON(post_data)
+
         var loading = new ol.loading({id: "7_layer_access_new_item_body"})
 		$.ajax({
 		  type: 'POST' ,
@@ -188,9 +196,6 @@
 
 	})
 
-
-
-
     function rs_table() {
         var html = ''
         for (rs in rs_list) {
@@ -200,9 +205,6 @@
         }
         $("#rs_table_body").html(html)
     };
-
-
-
 
     $( "#dialog-form" ).dialog({
         autoOpen: false,

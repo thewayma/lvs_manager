@@ -1029,7 +1029,7 @@ class nginxNewServiceItem(BaseHandler):
 
             upStreamValue = ",".join(rs_list)
 
-            print "nginxNewServiceItem: %s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
+            print "nginxNewServiceItem writes ETCD: %s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
 
             try:
                 handler.Insert7LayerNginxItem(data)
@@ -1088,13 +1088,20 @@ class nginxEditServiceItem(BaseHandler):
         subDomainKey    = "/7/%s/%s/subDomain" %(data['idc'], data['service'])
         subDomainValue  = data['domain']
         upStreamKey     = "/7/%s/%s/upStream" %(data['idc'], data['service'])
-        upStreamValue   = data['upstream']
-        #print "%s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
+
+        rs_list = []
+        for rs in data['rs']:
+            rs_str = rs['website_ip']+':'+rs['website_port'] + ' weight='+rs['website_weight'] + ' max_fails='+rs['healthchecker_max_fails'] + ' fail_timeout='+rs['healthchecker_fail_timeout']
+            rs_list.append(rs_str)
+
+        upStreamValue = ",".join(rs_list)
+
+        print "nginxEditServiceItem writes ETCD: %s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
 
         client = buildEtcdClient(handler.config)
 
         try:
-            handler.Updata7LayerNginxItem(data['idc'], data['service'], data['domain'], data['upstream'])
+            handler.Updata7LayerNginxItem(data['idc'], data['service'], data['domain'], data['rs'])
 
             client.write(subDomainKey, subDomainValue)
             client.write(upStreamKey, upStreamValue)

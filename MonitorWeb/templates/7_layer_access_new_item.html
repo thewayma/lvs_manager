@@ -212,6 +212,11 @@
         $( "#dialog-form" ).dialog( "open" );
     });
 
+    function rs_remove(rs_num) {
+        delete rs_list[rs_num] ;
+        rs_table() ;
+    };
+
 
 </script>
 {% endblock %}

@@ -161,40 +161,46 @@
         },
     });
 
-	$("#7_layer_access_edit_item_submit").click(function() {
-		post_data = new Object() ;
-		$(".7_layer_access_edit_item_input").each(function() {
-			var key = $(this).attr('id') ;
-			var value = $(this).val() ;
-			post_data[key] = value ;
-		})
+    $("#7_layer_access_edit_item_submit").click(function() {
+        bootbox.confirm('是否保存修改',function(result) {
+            if ( result ) {
+                var _rs_list = []
+                post_data = new Object() ;
 
-        for (rs in rs_list) {
-            if ( rs_list[rs] ) {
-                _rs_list.push(rs_list[rs])
+                $(".7_layer_access_edit_item_input").each(function() {
+                    var key = $(this).attr('id') ;
+                    var value = $(this).val() ;
+                    post_data[key] = value ;
+                })
+                for (rs in rs_list) {
+                    if ( rs_list[rs] ) {
+                        _rs_list.push(rs_list[rs])
+                    }
+                };
+                post_data['rs'] = _rs_list ;
+
+                var _post_data = $.toJSON(post_data)
+
+                var loading = new ol.loading({id: "7_layer_access_new_item_body"}) ;
+                $.ajax({
+                    type: 'POST' ,
+                    url: '/7_layer_access_edit_item/' ,
+                    data: _post_data ,
+                    cache: false ,
+                    beforeSend: function() { loading.show()} ,
+                    success: function(data) {
+                        loading.hide()  ;
+                        window.location.href="/7_layer_access/"
+                    },
+                    error: function(XMLHttpRequest) {
+                        loading.hide()  ;
+                        bootbox.alert('提交失败:' + XMLHttpRequest)
+                    }
+                });
             }
-        };
-        post_data['rs'] = _rs_list;
-		var _post_data = $.toJSON(post_data)
+        })
+    })
 
-        var loading = new ol.loading({id: "7_layer_access_new_item_body"})
-		$.ajax({
-		  type: 'POST' ,
-          url: '/7_layer_access_edit_item/' ,
-          data: _post_data ,
-          cache: false ,
-          beforeSend: function() { loading.show()} ,
-          success: function(data) {
-          		loading.hide()  ;
-               	window.location.href="/7_layer_access/"
-          },
-          error: function(XMLHttpRequest) {
-          	loading.hide()  ;
-          	bootbox.alert('提交失败:' + XMLHttpRequest)
-          }
-      });
-
-	})
 
     function rs_table() {
         var html = ''

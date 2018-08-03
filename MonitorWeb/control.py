@@ -1012,19 +1012,22 @@ class nginxNewServiceItem(BaseHandler):
         handler = Model('7LayerNginxAccess')
         item = handler.Get7LayerNginxItemListByIdcService(data['idc'], data['service'])
 
-        print data['rs']
-
         if item:
             self.write('serviceName=%s and idc=%s, existed' %(data['service'], data['idc']))
             print 'serviceName=%s and idc=%s, existed in ETCD' %(data['service'], data['idc'])
         else:
             client = buildEtcdClient(handler.config)
 
+
             subDomainKey    = "/7/%s/%s/subDomain" %(data['idc'], data['service'])
             subDomainValue  = data['domain']
             upStreamKey     = "/7/%s/%s/upStream" %(data['idc'], data['service'])
-            upStreamValue   = data['upstream']
-            #print "%s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
+
+            for rs in data['rs']:
+                upStreamValue   = upStreamValue + rs['website_ip']+':'+rs['website_port'] + 'weight='+rs['website_weight'] + 'max_fails='+rs['healthchecker_max_fails'] + 'fail_timeout='+rs['healthchecker_fail_timeout'] + ','
+
+            print "%s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
+
 
             try:
                 handler.Insert7LayerNginxItem(data)

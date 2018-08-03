@@ -139,13 +139,22 @@
 
 
 	$("#7_layer_access_new_item_submit").click(function() {
+	    var _rs_list = []
 		post_data = new Object() ;
 		$(".7_layer_access_new_item_input").each(function() {
 			var key = $(this).attr('id') ;
 			var value = $(this).val() ;
 			post_data[key] = value ;
 		})
-		var _post_data = $.toJSON(post_data)
+
+        for (rs in rs_list) {
+            if ( rs_list[rs] ) {
+                _rs_list.push(rs_list[rs])
+            }
+        };
+        post_data['rs'] = _rs_list ;
+
+        var _post_data = $.toJSON(post_data)
         var loading = new ol.loading({id: "7_layer_access_new_item_body"})
 		$.ajax({
 		  type: 'POST' ,

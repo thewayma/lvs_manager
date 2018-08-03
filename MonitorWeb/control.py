@@ -1023,8 +1023,12 @@ class nginxNewServiceItem(BaseHandler):
             subDomainValue  = data['domain']
             upStreamKey     = "/7/%s/%s/upStream" %(data['idc'], data['service'])
 
+            rs_list = []
             for rs in data['rs']:
-                upStreamValue   = upStreamValue + rs['website_ip']+':'+rs['website_port'] + 'weight='+rs['website_weight'] + 'max_fails='+rs['healthchecker_max_fails'] + 'fail_timeout='+rs['healthchecker_fail_timeout'] + ','
+                rs_str = rs['website_ip']+':'+rs['website_port'] + ' weight='+rs['website_weight'] + ' max_fails='+rs['healthchecker_max_fails'] + ' fail_timeout='+rs['healthchecker_fail_timeout']
+                rs_list.append(rs_str)
+
+            upStreamValue = ",".join(rs_list)
 
             print "%s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
 

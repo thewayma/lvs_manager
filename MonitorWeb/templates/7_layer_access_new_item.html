@@ -66,7 +66,7 @@
 			      <th>操作</th>
 			    </tr>
 			  </thead>
-			  <tbody id='rs_talbe_body'>
+			  <tbody id='rs_table_body'>
 			  </tbody>
 		</table>
 		<hr>
@@ -134,6 +134,10 @@
 
 
 <script type="text/javascript">
+
+    var rs_list = []
+
+
 	$("#7_layer_access_new_item_submit").click(function() {
 		post_data = new Object() ;
 		$(".7_layer_access_new_item_input").each(function() {
@@ -160,5 +164,52 @@
       });
 
 	})
+
+    function rs_table() {
+        var html = ''
+        for (rs in rs_list) {
+            _rs = rs_list[rs]
+            html += '<tr><td>' + _rs['website_ip'] + '</td><td>' + _rs['website_port'] + '</td><td>' +
+                _rs['website_weight'] + '</td><td>' + _rs['healthchecker_type'] + '</td><td>' +_rs['healthchecker_fail_timeout'] + '</td><td>' + _rs['healthchecker_max_fails'] +'</td><td><a href="javascript:rs_remove(' + rs + ')" ><span class="fui-cross"></span>delete</a></td></tr>'
+        }
+        $("#rs_table_body").html(html)
+    };
+
+
+
+
+    $( "#dialog-form" ).dialog({
+      autoOpen: false,
+      height: 600,
+      width: 400,
+      modal: true,
+      buttons: {
+        "保存": function() {
+        	monitor_new = new Object ;
+
+        	monitor_new['website_ip'] = $("#website_ip").val() ;
+        	monitor_new['website_port'] = $("#website_port").val() ;
+        	monitor_new['website_weight'] = $("#website_weight").val() ;
+            monitor_new['healthchecker_type'] = $("#healthchecker_type").val() ;
+            monitor_new['healthchecker_fail_timeout'] = $("#healthchecker_fail_timeout").val() ;
+            monitor_new['healthchecker_max_fails'] = $("#healthchecker_max_fails").val() ;
+
+        	rs_list.push(monitor_new) ;
+        	rs_table() ;
+            $( this ).dialog( "close" );
+        },
+        Cancel: function() {
+          $( this ).dialog( "close" );
+        }
+      },
+      close: function() {
+
+      }
+
+    });
+
+
+
+
 </script>
 {% endblock %}

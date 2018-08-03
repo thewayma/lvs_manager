@@ -51,10 +51,85 @@
             </div>
 		</form>
 
+	    </br>
+		<h4>RealServer组</h4>
+		<hr>
+		<button id="rs_add" class='btn btn-success'><span class="fui-plus"></span>添加RS</button>
+		<table class="table table-bordered table-hover">
+			  <thead>
+			    <tr>
+			      <th style="width: 10%">源站IP</th>
+			      <th style="width: 10%">源站端口</th>
+			      <th style="width: 10%">调度权重</th>
+			      <th style="width: 15%">健康检查类型</th>
+			      <th style="width: 15%">健康检查调度周期(fail_timeout)</th>
+                  <th style="width: 15%">健康检查连续失败次数(max_fails)</th>
+			      <th>操作</th>
+			    </tr>
+			  </thead>
+			  <tbody id='rs_table_body'>
+			  </tbody>
+		</table>
+		<hr>
+
+
+
 		<button style="position: relative;left: 800px;" class='btn btn-danger' id="7_layer_access_new_item_submit" ><span class="fui-checkbox-checked"></span>提交</button>
 		<a href="/7_layer_access/" style="position: relative;left: 800px;" class='btn btn-primary'><span class="fui-arrow-left"></span>返回</a>
   	</div>
   </div>
+
+
+    <div id="dialog-form" title="新增RS配置">
+        <form>
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label" for="website_ip">源站IP</label>
+                    <div class="controls">
+                        <td><input id="website_ip" type="text" name='website_ip'><span class="help-block">源站IP</span></td>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="website_port">服务端口</label>
+                    <div class="controls">
+                        <td><input id="website_port" type="text" name='website_port'><span class="help-block">源站端口</span></td>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="website_weight">调度权重</label>
+                    <div class="controls">
+                        <td><input id="website_weight" type="text" name='website_weight'><span class="help-block">用于调节RS的负载压力</span></td>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="healthchecker_type">健康检查类型</label>
+                    <div class="controls">
+                        <select id="healthchecker_type" name='healthchecker_type'>
+                            <option value='HTTP_GET'>HTTP_GET</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="healthchecker_fail_timeout">健康检查周期</label>
+                    <div class="controls">
+                        <td><input id="healthchecker_fail_timeout" type="text" name='healthchecker_fail_timeout'><span class="help-block">健康检查周期，单位：秒</span></td>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="healthchecker_max_fails">健康检查最大连续失败次数</label>
+                    <div class="controls">
+                        <td><input id="healthchecker_max_fails" type="text" name='healthchecker_max_fails'><span class="help-block">检查周期内，最大连续失败次数阈值，达到阈值后则认为RS为Down</span></td>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
 </div>
 
 

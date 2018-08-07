@@ -91,8 +91,7 @@ class Application(tornado.web.Application):
             (r"/7_layer_access_new_item/",      control.nginxNewServiceItem),
             (r"/7_layer_access_del_item/",      control.nginxDelServiceItem),
             (r"/7_layer_access_edit_item/",     control.nginxEditServiceItem),
-            (r"/7_layer_access_get_rs_list/",   control.nginxGetRsListByIdcService)
-
+            (r"/7_layer_access_get_rs_list/",   control.nginxGetRsListByIdcService),
         ]
 
         handlers = api_path + web_path + nginx_path

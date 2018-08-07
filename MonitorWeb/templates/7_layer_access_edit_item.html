@@ -44,6 +44,13 @@
             </div>
 
             <div class="control-group">
+		      <label class="control-label" for="vip">接入业务连接ip(vip)</label>
+		      <div class="controls">
+		        <td><input id="vip" size=60 class="7_layer_access_edit_item_input" type="text" name='vip' value="{{ instance.vip }}"></td>
+		      </div>
+            </div>
+
+            <div class="control-group">
 		      <label class="control-label" for="vport">接入业务连接端口(vport)</label>
 		      <div class="controls">
 		        <td><input id="vport" size=60 class="7_layer_access_edit_item_input" type="text" name='vport' value="{{ instance.vport }}"></td>
@@ -102,7 +109,7 @@
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label" for="website_port">服务端口</label>
+                    <label class="control-label" for="website_port">源站端口</label>
                     <div class="controls">
                         <td><input id="website_port" type="text" name='website_port'><span class="help-block">源站端口</span></td>
                     </div>
@@ -229,7 +236,7 @@
                     if ( rs_list[rs] ) {
                         _rs_list.push(rs_list[rs])
                     }
-                };
+                }
                 post_data['rs'] = _rs_list ;
 
                 var _post_data = $.toJSON(post_data)

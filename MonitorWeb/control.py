@@ -1021,6 +1021,8 @@ class nginxNewServiceItem(BaseHandler):
             subDomainKey    = "/7/%s/%s/subDomain" %(data['idc'], data['service'])
             subDomainValue  = data['domain']
             upStreamKey     = "/7/%s/%s/upStream" %(data['idc'], data['service'])
+            vIpPortKey      = "/7/%s/%s/vIpPort" %(data['idc'], data['service'])
+            vIpPortValue    = data['vip'] + ':' + data['vport']
 
             rs_list = []
             for rs in data['rs']:
@@ -1029,13 +1031,14 @@ class nginxNewServiceItem(BaseHandler):
 
             upStreamValue = ",".join(rs_list)
 
-            print "nginxNewServiceItem writes ETCD: %s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
+            print "nginxNewServiceItem writes ETCD: %s=%s, %s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue, vIpPortKey, vIpPortValue)
 
             try:
                 handler.Insert7LayerNginxItem(data)
 
                 client.write(subDomainKey, subDomainValue)
                 client.write(upStreamKey, upStreamValue)
+                client.write(vIpPortKey, vIpPortValue)
 
                 self.write('etcd new node success')
                 print 'serviceName=%s and idc=%s, added successful in ETCD' %(data['service'], data['idc'])
@@ -1088,6 +1091,8 @@ class nginxEditServiceItem(BaseHandler):
         subDomainKey    = "/7/%s/%s/subDomain" %(data['idc'], data['service'])
         subDomainValue  = data['domain']
         upStreamKey     = "/7/%s/%s/upStream" %(data['idc'], data['service'])
+        vIpPortKey      = "/7/%s/%s/vIpPort" %(data['idc'], data['service'])
+        vIpPortValue    = data['vip'] + ':' + data['vport']
 
         rs_list = []
         for rs in data['rs']:
@@ -1096,7 +1101,7 @@ class nginxEditServiceItem(BaseHandler):
 
         upStreamValue = ",".join(rs_list)
 
-        print "nginxEditServiceItem writes ETCD: %s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue)
+        print "nginxEditServiceItem writes ETCD: %s=%s, %s=%s, %s=%s" %(subDomainKey, subDomainValue, upStreamKey, upStreamValue, vIpPortKey, vIpPortValue)
 
         client = buildEtcdClient(handler.config)
 
@@ -1105,6 +1110,7 @@ class nginxEditServiceItem(BaseHandler):
 
             client.write(subDomainKey, subDomainValue)
             client.write(upStreamKey, upStreamValue)
+            client.write(vIpPortKey, vIpPortValue)
 
             self.write('ok')
             print 'serviceName=%s and idc=%s, updated successful in ETCD' %(data['service'], data['idc'])
@@ -1126,4 +1132,7 @@ class nginxGetRsListByIdcService(BaseHandler):
         instance = handler.Get7LayerNginxItemListByIdcService(idcName, serviceName)
 
         if instance[0]:
+            for index, rs in enumerate(instance[0]['rs']):
+                rs['index'] = index
+
             self.write(json.dumps(instance[0]['rs']))

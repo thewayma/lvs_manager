@@ -1055,8 +1055,7 @@ class nginxDelServiceItem(BaseHandler):
     def post(self):
         data = tornado.escape.json_decode(self.request.body)
 
-        subDomainKey = "/7/%s/%s/subDomain" %(data['idc'], data['service'])
-        upStreamKey = "/7/%s/%s/upStream" %(data['idc'], data['service'])
+        serviceDirKey = "/7/%s/%s" %(data['idc'], data['service'])
 
         handler = Model('7LayerNginxAccess')
         client = buildEtcdClient(handler.config)
@@ -1064,8 +1063,7 @@ class nginxDelServiceItem(BaseHandler):
         try:
             handler.Remove7LayerNginxItem(data['idc'], data['service'])
 
-            client.delete(subDomainKey)
-            client.delete(upStreamKey)
+            client.delete(serviceDirKey, recursive=True)
 
             self.write('ok')
             print 'serviceName=%s and idc=%s, deleted successful in ETCD' %(data['service'], data['idc'])

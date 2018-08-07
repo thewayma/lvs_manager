@@ -1022,7 +1022,11 @@ class nginxNewServiceItem(BaseHandler):
             subDomainValue  = data['domain']
             upStreamKey     = "/7/%s/%s/upStream" %(data['idc'], data['service'])
             vIpPortKey      = "/7/%s/%s/vIpPort" %(data['idc'], data['service'])
-            vIpPortValue    = data['vip'] + ':' + data['vport']
+
+            if data['vip']:
+                vIpPortValue    = data['vip'] + ':' + data['vport']
+            else:
+                vIpPortValue    = data['vport']
 
             rs_list = []
             for rs in data['rs']:
@@ -1092,7 +1096,11 @@ class nginxEditServiceItem(BaseHandler):
         subDomainValue  = data['domain']
         upStreamKey     = "/7/%s/%s/upStream" %(data['idc'], data['service'])
         vIpPortKey      = "/7/%s/%s/vIpPort" %(data['idc'], data['service'])
-        vIpPortValue    = data['vip'] + ':' + data['vport']
+
+        if data['vip']:
+            vIpPortValue    = data['vip'] + ':' + data['vport']
+        else:
+            vIpPortValue    = data['vport']
 
         rs_list = []
         for rs in data['rs']:

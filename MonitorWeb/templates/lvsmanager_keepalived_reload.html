@@ -62,6 +62,9 @@
 					{% endfor %}
 				</select>
 				<button id="lvsmanager_keepalived_reload_run" class="btn inline btn-primary" style="position:relative ; top:-5px ">Reload</button>
+
+                <label class="control-label" for="centos7">启用Systemctl管理Keepalived服务（如CentOS7系统），必须勾选</label>
+                <input id="centos7" class="centos7_systemctl_checkbox" name='centos7' type='checkbox' value='True' checked="true">
 			</div>
 		</div>
 	</div>
@@ -85,7 +88,15 @@
 		var id = '{{ cluster.id }}'
 		var lb_list = $("#lvsmanager_keepalived_reload_select").val()
 		if ( lb_list  ) {
-			var json_data = JSON.stringify({"id":id,"lb_list":lb_list});
+
+		    var value = $("#centos7").attr('checked');
+            if (value == 'checked') {
+                var _value = 1
+            } else {
+                var _value = 0
+            }
+
+			var json_data = JSON.stringify({"id":id,"lb_list":lb_list, "enable_systemctl": _value});
 			var loading=new ol.loading({id:"lvsmanager_keepalived_reload_return_text"}) ;
 			$.ajax({
 				  type: 'POST' ,

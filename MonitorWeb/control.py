@@ -895,9 +895,16 @@ class lvsManagerKeepalivedReload(BaseHandler):
         data = tornado.escape.json_decode(self.request.body)
         id = data['id']
         lb_list = data['lb_list']
+        enableSystemCtl = data['enable_systemctl']
+
         runsalt = saltstackwork()
         #调用salt，执行keepalived reload命令
-        cmd = '/etc/init.d/keepalived reload'
+
+        if enableSystemCtl == 1:
+            cmd = 'systemctl reload keepalived'
+        else:
+            cmd = '/etc/init.d/keepalived reload'
+
         cmd_result = runsalt.run_cmd(lb_list, cmd)
         self.render2('lvsmanager_keepalived_reload_result.tpl', cmd_result = cmd_result)
         

@@ -65,7 +65,7 @@
 				<button id="lvsmanager_keepalived_stop" class="btn inline btn-danger" style="position:relative ; top:-5px ">Stop</button>
 
 
-                <label class="control-label" for="centos7">启用Systemctl管理Keepalived服务，必须勾选</label>
+                <label class="control-label" for="centos7">启用Systemctl管理Keepalived服务（如CentOS7系统），必须勾选</label>
                 <input id="centos7" class="centos7_systemctl_checkbox" name='centos7' type='checkbox' value='True' checked="true">
 
 
@@ -95,7 +95,15 @@
 		var lb_list = $("#lvsmanager_keepalived_start_or_stop_select").val()
 		var start_or_stop = 'start'
 		if ( lb_list  ) {
-			var json_data = JSON.stringify({"id":id,"lb_list":lb_list,"start_or_stop":start_or_stop});
+
+            var value = $("#centos7").attr('checked')
+            if (value == 'checked') {
+                var _value = 1
+            } else {
+                var _value = 0
+            }
+
+            var json_data = JSON.stringify({"id":id,"lb_list":lb_list,"start_or_stop":start_or_stop, "enable_systemctl": _value});
 			var loading=new ol.loading({id:"lvsmanager_keepalived_start_or_stop_return_text"}) ;
 			$.ajax({
 				  type: 'POST' ,
@@ -125,7 +133,16 @@
 		var lb_list = $("#lvsmanager_keepalived_start_or_stop_select").val()
 		var start_or_stop = 'stop'
 		if ( lb_list  ) {
-			var json_data = JSON.stringify({"id":id,"lb_list":lb_list,"start_or_stop":start_or_stop});
+
+		    var value = $("#centos7").attr('checked')
+            if (value == 'checked') {
+                var _value = 1
+            } else {
+                var _value = 0
+            }
+
+
+			var json_data = JSON.stringify({"id":id,"lb_list":lb_list,"start_or_stop":start_or_stop, "enable_systemctl": _value});
 			var loading=new ol.loading({id:"lvsmanager_keepalived_start_or_stop_return_text"}) ;
 			$.ajax({
 				  type: 'POST' ,

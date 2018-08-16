@@ -920,12 +920,25 @@ class lvsManagerKeepalivedStartOrStop(BaseHandler):
         id = data['id']
         start_or_stop = data['start_or_stop']
         lb_list = data['lb_list']
+        enableSystemCtl = data['enable_systemctl']
+
         runsalt = saltstackwork()
         #调用salt，执行keepalived start or stop
-        if start_or_stop == 'start':
-            cmd = '/etc/init.d/keepalived start'
+
+        if enableSystemCtl == 1:
+            if start_or_stop == 'start':
+                cmd = 'systemctl start keepalived'
+            else:
+                cmd = 'systemctl stop keepalived'
         else:
-            cmd = '/etc/init.d/keepalived stop'
+            if start_or_stop == 'start':
+                cmd = '/etc/init.d/keepalived start'
+            else:
+                cmd = '/etc/init.d/keepalived stop'
+
+
+
+
         cmd_result = runsalt.run_cmd(lb_list, cmd)
         self.render2('lvsmanager_keepalived_reload_result.tpl', cmd_result = cmd_result)
 
